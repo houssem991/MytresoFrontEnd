@@ -28,6 +28,9 @@ import { UsersEditComponent } from "./users/users-edit/users-edit.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { GestionrolesComponent } from './gestionroles/gestionroles.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
+import { AddroleComponent } from './addrole/addrole.component';
+import {NgxSpinnerModule} from 'ngx-spinner';
+import { UpdateRoleComponent } from './update-role/update-role.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -42,6 +45,7 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
     PipeModule,
     NgxDatatableModule,
     Ng2SmartTableModule,
+    NgxSpinnerModule,
   ],
   declarations: [
     GalleryPageComponent,
@@ -59,6 +63,8 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
     UsersViewComponent,
     UsersEditComponent,
     GestionrolesComponent,
+    AddroleComponent,
+    UpdateRoleComponent,
   ],
 })
 export class FullPagesModule {}

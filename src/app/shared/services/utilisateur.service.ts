@@ -11,16 +11,13 @@ const httpOption = {
   providedIn: 'root'
 })
 export class UtilisateurService {
-  API_URLl = 'http://localhost:8081/api/auth/';
+  API_URLl = 'http://localhost:8080/api/user/';
 
   constructor(private http: HttpClient) {
   }
 
   getall(): Observable<any> {
     return this.http.get(API_URL + 'all');
-  }
-  getallCand(): Observable<any> {
-    return this.http.get(API_URL + 'allc');
   }
   findById(id): Observable<any> {
     return this.http.get(`${this.API_URLl + 'find'}/${id}`);

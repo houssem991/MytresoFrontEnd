@@ -1,20 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {TokenStorageService} from '../../../shared/services/token-storage.service';
 import {RoleService} from '../../../shared/services/role.service';
+import {AccessService} from '../../../shared/services/acces.service';
 
 @Component({
-  selector: 'app-gestionroles',
-  templateUrl: './gestionroles.component.html',
-  styleUrls: ['./gestionroles.component.scss']
+  selector: 'app-manage-acces',
+  templateUrl: './manage-acces.component.html',
+  styleUrls: ['./manage-acces.component.scss']
 })
-export class GestionrolesComponent implements OnInit {
+export class ManageAccesComponent implements OnInit {
 
-  role: any;
+  access: any;
   settings = {
     columns: {
-      name: {
-        title: 'name'
+      nameaccess: {
+        title: 'Nom du Permission'
+      },
+      add: {
+        title: 'Ajouter'
+      },
+      modifier: {
+        title: 'Modifier'
+      },
+      delete: {
+        title: 'Supprimer'
+      },
+      consulter: {
+        title: 'Consulter'
       },
     },
     attr: {
@@ -42,41 +55,25 @@ export class GestionrolesComponent implements OnInit {
       position: 'right'
     }
   };
-  settingsUser = {
-    columns: {
-      name: {
-        title: 'name'
-      },
-      local: {
-        title: 'local'
-      },
-    },
-    attr: {
-      class: 'table table-responsive'
-    },
-    actions: {
-      columnTitle: '',
-      custom: [
-        {
-          name: 'show',
-          title: '<a  href="" ><i class="fa fa-eye px-1" aria-hidden="true" ></i></a>'
-        },
-      ],
-      add: false,
-      delete: false,
-      edit: false,
-      position: 'right'
-    }
-  };
-  user: any;
+user: any;
+role: any;
+  idrole: any;
+  constructor(private router: Router, private tokenStorage: TokenStorageService, private roleService: RoleService , private accesService: AccessService , private route: ActivatedRoute) {
+    this.idrole = this.route['params']['value']['id'];
 
-
-  constructor(private router: Router, private tokenStorage: TokenStorageService, private roleService: RoleService) {
     this.getall();
+    this.getByid();
   }
 
   getall() {
-    this.roleService.getall().subscribe(data => {
+    this.accesService.findById(this.idrole).subscribe(data => {
+      console.log(data);
+      this.access = data;
+    });
+
+  }
+  getByid() {
+    this.roleService.findById(this.idrole).subscribe(data => {
       console.log(data);
       this.role = data;
     });
@@ -84,7 +81,7 @@ export class GestionrolesComponent implements OnInit {
   }
 
   delete($id) {
-    this.roleService.delete($id).subscribe(data => {
+    this.accesService.delete($id).subscribe(data => {
       window.location.reload();
     });
   }
@@ -116,7 +113,6 @@ export class GestionrolesComponent implements OnInit {
       this.user = this.tokenStorage.getUser();
     }
   }
-
 
 
 }

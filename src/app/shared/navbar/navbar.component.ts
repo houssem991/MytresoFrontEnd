@@ -9,6 +9,7 @@ import { UntypedFormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
 import {TokenStorageService} from '../services/token-storage.service';
+import {UtilisateurService} from '../services/utilisateur.service';
 
 @Component({
   selector: "app-navbar",
@@ -31,7 +32,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
-
+  user: any;
+  iduser: any;
   @ViewChild('search') searchElement: ElementRef;
   @ViewChildren('searchResults') searchResults: QueryList<any>;
 
@@ -50,7 +52,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     private layoutService: LayoutService,
     private router: Router,
     private configService: ConfigService, private cdr: ChangeDetectorRef,
-    private tokenStorage : TokenStorageService          ) {
+    private tokenStorage: TokenStorageService , private userService: UtilisateurService        ) {
 
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
@@ -73,8 +75,15 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     else {
       this.isSmallScreen = false;
     }
+    if (this.tokenStorage.getToken()) {
+      this.iduser = this.tokenStorage.getUser().id;
+      this.userService.findById(this.iduser).subscribe(
+        data => {
+          this.user = data ;
+        }
+      )
+    }
   }
-
   ngAfterViewInit() {
 
     this.configSub = this.configService.templateConf$.subscribe((templateConf) => {

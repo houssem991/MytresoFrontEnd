@@ -1,0 +1,44 @@
+<section class="users-view">
+  <!-- Media object starts -->
+  <div class="row">
+    <div class="col-12 col-sm-7">
+      <div class="media d-flex align-items-center">
+        <a href="javascript:;">
+          <img src="assets/img/icons/lock.png" alt="user view avatar"
+               class="users-avatar-shadow rounded" height="64" width="64">
+        </a>
+        <div class="media-body ml-3">
+          <h4>
+            <span class="users-view-name mr-1">{{role.name}}</span>
+          </h4>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-sm-5 d-flex justify-content-end align-items-center">
+      <a [routerLink]="['/pages/users-edit']" class="btn btn-sm btn-primary px-3 py-1">Ajouter</a>
+    </div>
+  </div>
+  <!-- Media object ends -->
+
+  <div class="row">
+    <div class="col-12">
+      <!-- Card data starts -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-12 col-xl-12">
+                <div class="table-responsive">
+                  <div id="map-canvas" class="map-canvas" data-lat="50.748817" data-lng="-73.985428" style="height: 600px;">
+                    <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="access" (custom)="onclicktable($event)"></ng2-smart-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card data ends -->
+    </div>
+  </div>
+</section>

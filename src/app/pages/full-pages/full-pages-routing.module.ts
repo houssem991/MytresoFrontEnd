@@ -15,6 +15,9 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersViewComponent } from './users/users-view/users-view.component';
 import { UsersEditComponent } from './users/users-edit/users-edit.component';
 import {GestionrolesComponent} from './gestionroles/gestionroles.component';
+import {AddroleComponent} from './addrole/addrole.component';
+import {UpdateRoleComponent} from './update-role/update-role.component';
+import {ManageAccesComponent} from './manage-acces/manage-acces.component';
 
 const routes: Routes = [
   {
@@ -107,6 +110,27 @@ const routes: Routes = [
         component: GestionrolesComponent,
         data: {
           title: 'List'
+        }
+      },
+      {
+        path: 'ajouter-role',
+        component: AddroleComponent,
+        data: {
+          title: 'Add'
+        }
+      },
+      {
+        path: 'modifier-role/:id',
+        component: UpdateRoleComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'manage-access/:id',
+        component: ManageAccesComponent,
+        data: {
+          title: 'View'
         }
       },
       {

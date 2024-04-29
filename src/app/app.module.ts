@@ -31,6 +31,8 @@ import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
 import { authInterceptorProviders } from "./shared/auth/auth.interceptor";
+import { ManageAccesComponent } from './pages/full-pages/manage-acces/manage-acces.component';
+import {Ng2SmartTableModule} from 'ng2-smart-table';
 
 var firebaseConfig = {
   apiKey: "AIzaSyC9XfnIpwNoSv7cyAsoccFQ5EYPd7lZXrk", //YOUR_API_KEY
@@ -54,7 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
 }
 
 @NgModule({
-  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent],
+  declarations: [AppComponent, FullLayoutComponent, ContentLayoutComponent, ManageAccesComponent],
   imports: [
     BrowserAnimationsModule,
     StoreModule.forRoot(fromApp.appReducer),
@@ -74,9 +76,10 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: "AIzaSyCERobClkCv1U4mDijGm1FShKva_nxsGJY"
+      apiKey: 'AIzaSyCERobClkCv1U4mDijGm1FShKva_nxsGJY'
     }),
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    Ng2SmartTableModule
   ],
   providers: [
     AuthService,

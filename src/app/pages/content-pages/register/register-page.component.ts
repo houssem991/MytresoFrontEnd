@@ -1,5 +1,5 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { NgForm, UntypedFormGroup, FormControl, Validators, UntypedFormBuilder } from '@angular/forms';
+import { UntypedFormGroup, Validators, UntypedFormBuilder } from '@angular/forms';
 
 // import custom validator to validate that password and confirm password fields match
 import { MustMatch } from '../../../shared/directives/must-match.validator';
@@ -28,7 +28,6 @@ export class RegisterPageComponent implements OnInit {
   currentFile: File;
   current: File;
   message = '';
-  fileInfos: Observable<any>;
 
   constructor(private formBuilder: UntypedFormBuilder, private router: Router, private authService: AuthService, private spinner: NgxSpinnerService) {
     this.registerForm = this.formBuilder.group({
@@ -97,6 +96,8 @@ export class RegisterPageComponent implements OnInit {
         this.spinner.hide();
       }
     );
+
+
   }
 
 
