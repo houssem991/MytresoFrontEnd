@@ -1,0 +1,74 @@
+<!--Registration Page Starts-->
+<section id="addrole">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row m-0">
+              <div class="col-lg-12 col-md-12 ">
+                <h4 class="card-title mb-2">Creer votre entreprise</h4>
+                <p>Pour inviter des collaborateurs, il faut créer votre entreprise avant.</p>
+                <p>Veuillez remplir ce formulaire pour completer la creation de votre entreprise.</p>
+                <ngb-alert type="danger" class="mb-2" [dismissible]="false" *ngIf="isSignUpFailed" (close)="isSignUpFailed = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-down mr-2"></i>
+                    <span>{{errorMessage}}</span>
+                  </div>
+                </ngb-alert>
+                <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSuccessful" (close)="isSuccessful = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-up mr-2"></i>
+                    <span>Entreprise créé avec succes !</span>
+                  </div>
+                </ngb-alert>
+                <ngx-spinner></ngx-spinner>
+                <form [formGroup]="entrepriseForm">
+                  <div class="form-group">
+                    <input type="text" formControlName="name" class="form-control mb-2" placeholder="Nom du l'entreprise"
+                           [ngClass]="{ 'is-invalid': entrepriseFormSubmitted && rf.name.invalid, 'is-valid': entrepriseFormSubmitted && !rf.name.invalid }"
+                           required>
+                    <div *ngIf="entrepriseFormSubmitted && (rf.name.invalid || rf.name.errors?.required)"
+                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" formControlName="matriculefiscale" class="form-control mb-2" placeholder="Matricule Fiscale"
+                           [ngClass]="{ 'is-invalid': entrepriseFormSubmitted && rf.matriculefiscale.invalid, 'is-valid': entrepriseFormSubmitted && !rf.matriculefiscale.invalid }"
+                           required>
+                    <div *ngIf="entrepriseFormSubmitted && (rf.matriculefiscale.invalid || rf.matriculefiscale.errors?.required)"
+                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Matricule Fiscale obligatoire</div>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" formControlName="adresse" class="form-control mb-2" placeholder="Adresse"
+                           [ngClass]="{ 'is-invalid': entrepriseFormSubmitted && rf.adresse.invalid, 'is-valid': entrepriseFormSubmitted && !rf.adresse.invalid }"
+                           required>
+                    <div *ngIf="entrepriseFormSubmitted && (rf.adresse.invalid || rf.adresse.errors?.required)"
+                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Adresse obligatoire</div>
+                  </div>
+                  <fieldset class="form-group">
+                    <div class="custom-file">
+                      <input type="file" (change)="selectFile($event)" formControlName="logo" class="custom-file-input" id="inputGroupFile01" placeholder="Choose Your Logo">
+                      <label class="custom-file-label" for="inputGroupFile01">Choose Your Logo</label>
+                    </div>
+                  </fieldset>
+
+
+
+                  <div class="row m-0">
+                      <div class="col-lg-6 col-md-6 "></div>
+                      <div class="col-lg-6 col-md-6 ">
+                    <a class="btn btn-primary" style="float: right;" (click)="onSubmit()">Créer</a>
+                      </div>
+                    </div>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->

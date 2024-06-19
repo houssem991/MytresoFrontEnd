@@ -17,6 +17,7 @@ export class LoginPageComponent implements OnInit {
   loginFormSubmitted = false;
   isLoginFailed = false;
   roles: any;
+  erreurMessage: any;
   loginForm = new UntypedFormGroup({
     email: new UntypedFormControl('', [Validators.required]),
     password: new UntypedFormControl('', [Validators.required]),
@@ -69,6 +70,7 @@ export class LoginPageComponent implements OnInit {
       },
       err => {
         this.isLoginFailed = true;
+        this.erreurMessage = err.error.message;
         this.spinner.hide();
         console.log('error: ' + err)
       }

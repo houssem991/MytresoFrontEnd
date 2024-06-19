@@ -31,6 +31,12 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import { AddroleComponent } from './addrole/addrole.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
 import { UpdateRoleComponent } from './update-role/update-role.component';
+import { AddAccesstoRoleComponent } from './add-accessto-role/add-accessto-role.component';
+import { UpdateAccessRoleComponent } from './update-access-role/update-access-role.component';
+import { AddEntrepriseComponent } from './add-entreprise/add-entreprise.component';
+import { InviterCollaborateurComponent } from './inviter-collaborateur/inviter-collaborateur.component';
+import { ValidateUserComponent } from './validate-user/validate-user.component';
+import { GestionFournisseursComponent } from './gestion-fournisseurs/gestion-fournisseurs.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -65,6 +71,12 @@ import { UpdateRoleComponent } from './update-role/update-role.component';
     GestionrolesComponent,
     AddroleComponent,
     UpdateRoleComponent,
+    AddAccesstoRoleComponent,
+    UpdateAccessRoleComponent,
+    AddEntrepriseComponent,
+    InviterCollaborateurComponent,
+    ValidateUserComponent,
+    GestionFournisseursComponent,
   ],
 })
 export class FullPagesModule {}

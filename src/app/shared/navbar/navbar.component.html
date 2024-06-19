@@ -267,16 +267,24 @@
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">{{user.username}}</span><span
-                  class="text-right text-muted font-small-3">Available</span>
+                <span class="text-right">{{user.username}}</span>
+                <span class="text-right text-muted font-small-3"*ngIf="user.identreprise != 0">{{user.nameEntreprise}}</span>
+                <span class="text-right text-muted font-small-3"*ngIf="user.identreprise == 0">Disponible</span>
               </div>
-              <img class="avatar" src="http://localhost:8080/api/auth/downloadFile/{{user.image}}" alt="avatar" height="35" width="35" />
+              <img class="avatar" *ngIf="user.image != null" src="http://localhost:8080/api/auth/downloadFile/{{user.image}}" alt="avatar" height="35" width="35" />
+              <img class="avatar" *ngIf="user.image == null" src="assets/img/account-avatar-profile-user-11.svg" alt="avatar" height="35" width="35" />
+
             </a>
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
-              <a class="dropdown-item" routerLink="/chat">
+              <a class="dropdown-item" *ngIf="user.identreprise == 0 && user.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/addEntreprise">
                 <div class="d-flex align-items-center">
-                  <i class="ft-message-square mr-2"></i><span>Chat</span>
+                  <i class="ft-user mr-2"></i><span>Inviter des Collaborateurs</span>
+                </div>
+              </a>
+              <a class="dropdown-item" *ngIf="user.identreprise != 0 && user.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/invite">
+                <div class="d-flex align-items-center">
+                  <i class="ft-user mr-2"></i><span>Inviter des Collaborateurs</span>
                 </div>
               </a>
               <a class="dropdown-item" routerLink="/pages/profile">

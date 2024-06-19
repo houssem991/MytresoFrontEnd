@@ -205,7 +205,7 @@ body {
 
   .sidebar-content {
     position: relative;
-    height: calc((var(--vh, 1vh) * 100) - 62px) !important;
+    height: calc((var(--vh, 1vh) * 90) - 62px) !important;
     z-index: 4;
 
     // Perfect Scrollbar

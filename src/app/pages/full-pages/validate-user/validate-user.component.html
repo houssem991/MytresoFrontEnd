@@ -1,0 +1,33 @@
+<!--Registration Page Starts-->
+<section id="regestration">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div
+                class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center text-center auth-img-bg py-2">
+                <img src="assets/img/gallery/register.png" alt="" class="img-fluid" width="200" height="80">
+              </div>
+              <div class="col-lg-6 col-md-12 px-4 py-3">
+                <h4 class="card-title mb-2">Verification de l'adresse email</h4>
+                <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSuccessful" (close)="isSuccessful = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-up mr-2"></i>
+                    <span>{{message}}</span>
+                  </div>
+
+                </ngb-alert>
+                <a [routerLink]="['/pages/login']" style="float: right;" class="btn bg-light-primary mb-2 mb-sm-0">Back To Login</a>
+                <ngx-spinner></ngx-spinner>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->

@@ -3,6 +3,7 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RoleService} from '../../../shared/services/role.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {TokenStorageService} from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-update-role',
@@ -18,12 +19,15 @@ export class UpdateRoleComponent implements OnInit {
   errorMessage = '';
   message = '';
   idrole: any;
+  iduser: any;
   role: any;
-  constructor(private formBuilder: UntypedFormBuilder, private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService,private route: ActivatedRoute) {
+  constructor(private formBuilder: UntypedFormBuilder, private tokenStorage: TokenStorageService , private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService,private route: ActivatedRoute) {
     this.idrole = this.route['params']['value']['id'];
    this.getById();
     this.roleForm = this.formBuilder.group({
-      name: ['' , Validators.required]
+      name: ['' , Validators.required],
+      iduser: ['']
+
     })
   }
 getById(): void {
@@ -35,8 +39,10 @@ getById(): void {
     )
 }
   ngOnInit() {
+    if (this.tokenStorage.getToken()) {
+      this.iduser = this.tokenStorage.getUser().id;
+    }
   }
-
   get rf() {
     return this.roleForm.controls;
   }
@@ -44,6 +50,7 @@ getById(): void {
 
   //  On submit click, reset field value
   onSubmit(): void {
+    this.roleForm.value.iduser = this.iduser;
 
     this.roleFormSubmitted = true;
     if (this.roleForm.invalid) {

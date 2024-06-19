@@ -1,0 +1,45 @@
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-primary" *ngIf="access.ajouter" (click)="importer(iduser)">Importer</a>
+      <div class="card shadow border-0">
+        <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSucces" (close)="isSucces = false">
+          <div class="alert-icon-left">
+            <i class="ft-thumbs-up mr-2"></i>
+            <span>{{message}}</span>
+          </div>
+        </ngb-alert>
+        <ngx-spinner></ngx-spinner>
+          <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="fournisseur" (custom)="onclicktable($event)"></ng2-smart-table>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+

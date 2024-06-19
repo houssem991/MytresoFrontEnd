@@ -17,6 +17,7 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { RegisterCollaboratorComponent } from './register-collaborator/register-collaborator.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -46,7 +47,8 @@ export function createTranslateLoader(http: HttpClient) {
     LoginPageComponent,
     MaintenancePageComponent,
     RegisterPageComponent,
-    ChangepasswordComponent
+    ChangepasswordComponent,
+    RegisterCollaboratorComponent
   ]
 })
 export class ContentPagesModule { }

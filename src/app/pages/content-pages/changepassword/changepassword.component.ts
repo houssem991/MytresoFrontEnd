@@ -11,6 +11,7 @@ import {NgxSpinnerService} from 'ngx-spinner';
   styleUrls: ['./changepassword.component.scss']
 })
 export class ChangepasswordComponent implements OnInit {
+  emailC: any;
   email: any;
   token: any;
   errorMessage = '';
@@ -29,7 +30,7 @@ export class ChangepasswordComponent implements OnInit {
   constructor(private router: Router, private authService: AuthService, private tokenStorage: TokenStorageService,
               private spinner: NgxSpinnerService,
               private route: ActivatedRoute) {
-    this.email = this.route['params']['value']['email'];
+    this.emailC = this.route['params']['value']['email'];
     this.token = this.route['params']['value']['token'];
   }
   ngOnInit(): void {
@@ -53,12 +54,14 @@ export class ChangepasswordComponent implements OnInit {
         fullScreen: true
       });
     if (this.ChangePasswordForm.value.password === this.ChangePasswordForm.value.Confirm_password) {
+      this.authService.decryptemail(this.emailC).subscribe(data => {
+        this.email = data.message
       this.authService.reset(this.token , this.email , this.ChangePasswordForm.value.password).subscribe(
-        data => {
+        data1 => {
           this.ChangePasswordFormSubmitted = true;
           this.isSubmitFailed = false;
           this.isnotsamepasseword = false;
-          this.message = data.message;
+          this.message = data1.message;
           this.spinner.hide();
         },
         err => {
@@ -69,12 +72,11 @@ export class ChangepasswordComponent implements OnInit {
           this.spinner.hide();
         }
       );
+      });
     } else {this.isnotsamepasseword = true ;
       this.isSubmitFailed = false;
       this.ChangePasswordFormSubmitted = false;
       this.spinner.hide();
     }
   }
-
-
 }

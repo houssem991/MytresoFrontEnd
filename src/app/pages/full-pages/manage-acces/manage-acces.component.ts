@@ -41,10 +41,6 @@ export class ManageAccesComponent implements OnInit {
           title: '<a  href=""  ><i class="fa fa-trash px-1" aria-hidden="true"></i></a>'
         },
         {
-          name: 'show',
-          title: '<a  href="" ><i class="fa fa-eye px-1" aria-hidden="true" ></i></a>'
-        },
-        {
           name: 'update',
           title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
         },
@@ -80,8 +76,8 @@ role: any;
 
   }
 
-  delete($id) {
-    this.accesService.delete($id).subscribe(data => {
+  delete($idrole , $idaccess ) {
+    this.accesService.delete($idrole, $idaccess).subscribe(data => {
       window.location.reload();
     });
   }
@@ -90,12 +86,10 @@ role: any;
 
   onclicktable($event) {
     if ($event.action === 'update') {
-      this.router.navigate(['pages/modifier-role', $event['data']['id'] ]);
-    } else if ($event.action === 'show') {
-      this.router.navigate(['pages/manage-access', $event['data']['id']]);
+      this.router.navigate(['pages/manage-access/update-access', $event['data']['role_id'], $event['data']['access_id']]);
     } else if ($event.action === 'delete') {
-      if (window.confirm('Voulez vous vraiment supprimer ce role?')) {
-        this.delete($event['data']['id']);
+      if (window.confirm('Voulez vous vraiment supprimer cette permission?')) {
+        this.delete($event['data']['role_id'], $event['data']['access_id']);
         window.location.reload();
 
       } else {

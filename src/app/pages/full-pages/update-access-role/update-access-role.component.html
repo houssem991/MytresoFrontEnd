@@ -1,0 +1,69 @@
+<!--Registration Page Starts-->
+<section id="regestration">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div
+                class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center text-center auth-img-bg py-2">
+                <img src="assets/img/icons/lock.png" alt="" class="img-fluid" width="250" height="130">
+              </div>
+              <div class="col-lg-6 col-md-12 px-4 py-3">
+                <h4 class="card-title mb-2">Modifier les Accés pour la {{access.id.access.title}}</h4>
+                <p>Veuillez remplir ce formulaire pour Modifier l'accés à la {{access.id.access.title}} pour ce role .</p>
+                <ngb-alert type="danger" class="mb-2" [dismissible]="false" *ngIf="isSignUpFailed" (close)="isSignUpFailed = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-down mr-2"></i>
+                    <span>{{errorMessage}}</span>
+                  </div>
+                </ngb-alert>
+                <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSuccessful" (close)="isSuccessful = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-up mr-2"></i>
+                    <span>Acces Modifié avec succés !</span>
+                  </div>
+                </ngb-alert>
+                <ngx-spinner></ngx-spinner>
+                <form [formGroup]="AccessRoleForm">
+                  <div class="form-group">
+                    <div class="checkbox auth-checkbox  ">
+                      <input type="checkbox" id="add" formControlName="ajouter" class="form-control">
+                      <label for="add"><span class="font-small-2 mb-3 font-weight-normal">Ajouter</span></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="checkbox auth-checkbox  ">
+                      <input type="checkbox" id="edit" formControlName="modifier" class="form-control">
+                      <label for="edit"><span class="font-small-2 mb-3 font-weight-normal">Modifier</span></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="checkbox auth-checkbox  ">
+                      <input type="checkbox" id="read" formControlName="consulter" class="form-control">
+                      <label for="read"><span class="font-small-2 mb-3 font-weight-normal">Consulter</span></label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="checkbox auth-checkbox  ">
+                      <input type="checkbox" id="delete" formControlName="supprimer" class="form-control">
+                      <label for="delete"><span class="font-small-2 mb-3 font-weight-normal">Supprimer</span></label>
+                    </div>
+                  </div>
+
+                  <div class="d-flex justify-content-between flex-sm-row flex-column">
+                    <a class="btn btn-primary" (click)="onSubmit()">Modifier</a>
+                  </div>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->

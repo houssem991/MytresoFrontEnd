@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {Router} from '@angular/router';
 import {RoleService} from '../../../shared/services/role.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {TokenStorageService} from '../../../shared/services/token-storage.service';
 
 @Component({
   selector: 'app-addrole',
@@ -18,13 +19,18 @@ export class AddroleComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
   message = '';
-  constructor(private formBuilder: UntypedFormBuilder, private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService) {
+  iduser: any;
+  constructor(private formBuilder: UntypedFormBuilder, private tokenStorage: TokenStorageService , private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService) {
     this.roleForm = this.formBuilder.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      iduser: ['']
     })
   }
 
   ngOnInit() {
+    if (this.tokenStorage.getToken()) {
+      this.iduser = this.tokenStorage.getUser().id;
+    }
   }
 
   get rf() {
@@ -34,7 +40,7 @@ export class AddroleComponent implements OnInit {
 
   //  On submit click, reset field value
   onSubmit(): void {
-
+this.roleForm.value.iduser = this.iduser;
     this.roleFormSubmitted = true;
     if (this.roleForm.invalid) {
       return;

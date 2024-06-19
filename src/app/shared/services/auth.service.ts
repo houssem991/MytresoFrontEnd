@@ -4,9 +4,6 @@ import { Observable } from 'rxjs';
 
 const AUTH_API = 'http://localhost:8080/api/auth/';
 
-
-const TOKEN_KEY = 'auth-token';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +11,6 @@ export class AuthService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem(TOKEN_KEY)}`
     })
   };
 
@@ -63,6 +59,24 @@ export class AuthService {
       role: user.value.role
     }, this.httpOptions);
   }
+  registerCollaborator(user): Observable<any> {
+    return this.http.post(AUTH_API + 'signupC', {
+      username: user.value.username,
+      firstname: user.value.firstname,
+      lastname: user.value.lastname,
+      email: user.value.email,
+      password: user.value.password,
+      idrole: user.value.idrole,
+      identreprise: user.value.identreprise
+    }, this.httpOptions);
+  }
+  inviter(user): Observable<any> {
+    return this.http.post(AUTH_API + 'invite', {
+      emailCollabrator: user.value.emailCollabrator,
+      email: user.value.email,
+      idrole: user.value.idrole,
+    }, this.httpOptions);
+  }
 
   update(id, user): Observable<any> {
     return this.http.put(`${AUTH_API + 'update'}/${id}`, {
@@ -74,8 +88,15 @@ export class AuthService {
       role: user.role
     }, this.httpOptions);
   }
+  validate(id): Observable<any> {
+    return this.http.put(`${AUTH_API + 'validate'}/${id}`, {}, this.httpOptions);
+  }
+  decryptemail(encryptedemail): Observable<any> {
+    return this.http.post(`${AUTH_API + 'decrypt-email'}/${encryptedemail}`, {}, this.httpOptions);
+  }
 
-    uploadimage(id: any, file: File): Observable<HttpEvent<any>> {
+
+  uploadimage(id: any, file: File): Observable<HttpEvent<any>> {
         const formData: FormData = new FormData();
         formData.append('file', file);
         const req = new HttpRequest('POST', `${AUTH_API + 'uploadImage'}/${id}`, formData, {

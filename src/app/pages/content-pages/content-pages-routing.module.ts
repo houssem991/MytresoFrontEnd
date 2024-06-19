@@ -9,6 +9,8 @@ import { LoginPageComponent } from "./login/login-page.component";
 import { MaintenancePageComponent } from "./maintenance/maintenance-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import {ChangepasswordComponent} from './changepassword/changepassword.component';
+import {RegisterCollaboratorComponent} from './register-collaborator/register-collaborator.component';
+import {ValidateUserComponent} from '../full-pages/validate-user/validate-user.component';
 
 
 const routes: Routes = [
@@ -63,6 +65,20 @@ const routes: Routes = [
         component: MaintenancePageComponent,
         data: {
           title: 'Maintenance Page'
+        }
+      },
+      {
+        path: 'registerCollaborator/:identreprise/:idrole/:email',
+        component: RegisterCollaboratorComponent,
+        data: {
+          title: 'RegisterCollaborator Page'
+        }
+      },
+      {
+        path: 'validateUser/:id',
+        component: ValidateUserComponent,
+        data: {
+          title: 'validation'
         }
       },
       {

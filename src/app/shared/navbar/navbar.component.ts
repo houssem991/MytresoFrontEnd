@@ -65,7 +65,6 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
   }
-
   ngOnInit() {
     this.listItems = LISTITEMS;
 
@@ -80,6 +79,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userService.findById(this.iduser).subscribe(
         data => {
           this.user = data ;
+          console.log("user", this.user)
         }
       )
     }

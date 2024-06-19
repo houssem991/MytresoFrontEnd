@@ -12,13 +12,18 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { ConfigService } from '../services/config.service';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../services/layout.service';
+import {AccessService} from '../services/acces.service';
+import {TokenStorageService} from '../services/token-storage.service';
+import {RoleService} from '../services/role.service';
+import {UserService} from '../services/user.service';
+import {UtilisateurService} from '../services/utilisateur.service';
 
 @Component({
   selector: "app-sidebar",
   templateUrl: "./vertical-menu.component.html",
   animations: customAnimations
 })
-export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
+export class VerticalMenuComponent implements OnInit, OnDestroy {
 
   @ViewChild('toggleIcon') toggleIcon: ElementRef;
   public menuItems: any[];
@@ -31,6 +36,11 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
   perfectScrollbarEnable = true;
   collapseSidebar = false;
   resizeTimeout;
+  role: any;
+  idrole: any;
+  iduser: any;
+  user: any;
+  namerole: any;
 
   constructor(
     private router: Router,
@@ -38,7 +48,11 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
     private layoutService: LayoutService,
     private configService: ConfigService,
     private cdr: ChangeDetectorRef,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private accessService: AccessService,
+    private roleService: RoleService,
+    private userService: UtilisateurService,
+    private tokenStorage: TokenStorageService
   ) {
     this.config = this.configService.templateConf;
     this.innerWidth = window.innerWidth;
@@ -47,10 +61,28 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit() {
-    this.menuItems = ROUTES;
+    //this.menuItems = ROUTES
+    if (this.tokenStorage.getToken()) {
+      this.namerole = this.tokenStorage.getUser().roles[0];
+      this.iduser = this.tokenStorage.getUser().id;
+      this.userService.findById(this.iduser).subscribe(
+        data => {
+          this.user = data ;
+          console.log("user", this.user)
+        }
+      )
+    }
+    this.roleService.findByName(this.namerole).subscribe(data => {
+      this.role = data ;
+      console.log("data", data)
+      this.accessService.findByIdrole(this.role.id).subscribe(data=> {
+        this.menuItems = data
+        console.log("m", this.menuItems )
+      })
+    })
   }
 
-  ngAfterViewInit() {
+  /*ngAfterViewInit() {
 
     this.configSub = this.configService.templateConf$.subscribe((templateConf) => {
       if (templateConf) {
@@ -68,7 +100,7 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-  }
+  }*/
 
 
   @HostListener('window:resize', ['$event'])
@@ -86,11 +118,16 @@ export class VerticalMenuComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.config.layout.menuPosition === "Top") { // Horizontal Menu
       if (this.innerWidth < 1200) { // Screen size < 1200
-        this.menuItems = HROUTES;
+        //this.menuItems = HROUTES;
+        this.menuItems
+        console.log('111111')
       }
     }
     else if (this.config.layout.menuPosition === "Side") { // Vertical Menu{
-      this.menuItems = ROUTES;
+      //this.menuItems = ROUTES;
+
+      console.log('222')
+
     }
 
 

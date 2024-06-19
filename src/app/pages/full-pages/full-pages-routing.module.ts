@@ -18,6 +18,12 @@ import {GestionrolesComponent} from './gestionroles/gestionroles.component';
 import {AddroleComponent} from './addrole/addrole.component';
 import {UpdateRoleComponent} from './update-role/update-role.component';
 import {ManageAccesComponent} from './manage-acces/manage-acces.component';
+import {AddAccesstoRoleComponent} from './add-accessto-role/add-accessto-role.component';
+import {UpdateAccessRoleComponent} from './update-access-role/update-access-role.component';
+import {AddEntrepriseComponent} from './add-entreprise/add-entreprise.component';
+import {InviterCollaborateurComponent} from './inviter-collaborateur/inviter-collaborateur.component';
+import {ValidateUserComponent} from './validate-user/validate-user.component';
+import {GestionFournisseursComponent} from './gestion-fournisseurs/gestion-fournisseurs.component';
 
 const routes: Routes = [
   {
@@ -134,6 +140,34 @@ const routes: Routes = [
         }
       },
       {
+        path: 'manage-access/add-access/:id',
+        component: AddAccesstoRoleComponent,
+        data: {
+          title: 'add'
+        }
+      },
+      {
+        path: 'manage-access/update-access/:idrole/:idaccess',
+        component: UpdateAccessRoleComponent,
+        data: {
+          title: 'add'
+        }
+      },
+      {
+        path: 'user/addEntreprise',
+        component: AddEntrepriseComponent,
+        data: {
+          title: 'add'
+        }
+      },
+      {
+        path: 'user/invite',
+        component: InviterCollaborateurComponent,
+        data: {
+          title: 'add'
+        }
+      },
+      {
         path: 'users-view',
         component: UsersViewComponent,
         data: {
@@ -143,6 +177,13 @@ const routes: Routes = [
       {
         path: 'users-edit',
         component: UsersEditComponent,
+        data: {
+          title: 'Edit'
+        }
+      },
+      {
+        path: 'gestion-fournisseurs',
+        component: GestionFournisseursComponent,
         data: {
           title: 'Edit'
         }
