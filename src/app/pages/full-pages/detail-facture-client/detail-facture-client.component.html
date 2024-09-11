@@ -1,0 +1,104 @@
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-primary ft-printer" (click)="printTable()"></a>
+
+      <div class="card shadow border-0" id="print">
+        <div style="border: 1px solid; padding: 10px;margin: 5px">
+          <div style="display: flex; justify-content: space-around; align-items: center;">
+            <label>N0 : </label>
+            <label>{{facture?.piece}}</label>
+            <label>Date : </label>
+            <label>{{facture?.documentDate}}</label>
+          </div>
+          <div style="display: flex; justify-content: space-around; align-items: center;">
+            <label>Client : </label>
+            <label>{{facture?.clientCode}}</label>
+            <label>{{facture?.nameClient}}</label>
+          </div>
+        </div>
+        <table style="border-collapse: collapse;border: 1px solid; padding: 10px;margin: 5px">
+          <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Désignation</th>
+            <th>Quantité</th>
+            <th>P.U. HT</th>
+            <th>PU TTC</th>
+            <th>Remise</th>
+            <th>PU Net TTC</th>
+            <th>Mnt. HT</th>
+            <th>Mnt TTC</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let lig of ligne;" style="border: 1px solid black;">
+            <td>{{lig?.reference}}</td>
+            <td>{{lig?.designation}}</td>
+            <td>{{lig?.quantity}}</td>
+            <td>{{lig?.unitpriceHT}}</td>
+            <td>{{lig?.unitPriceTTC}}</td>
+            <td>{{lig?.remise}}</td>
+            <td>{{lig?.unitPriceTTC}}</td>
+            <td>{{lig?.amountHT}}</td>
+            <td>{{lig?.amountTTC}}</td>
+          </tr>
+          </tbody>
+        </table>
+        <table style="border-collapse: collapse;border: 1px solid; padding: 10px;margin: 5px">
+          <tbody>
+          <tr  style="border: 1px solid black;">
+            <td style="border: 1px solid black;"><b>Total HT</b></td>
+            <td>{{facture?.totalAmountHT}}</td>
+
+          </tr>
+          <tr  style="border: 1px solid black;">
+            <td style="border: 1px solid black;"><b>Total TTC</b></td>
+            <td>{{facture?.totalAmountTTC}}</td>
+
+          </tr>
+          <tr  style="border: 1px solid black;">
+            <td style="border: 1px solid black;"><b>Total Net A Payer</b></td>
+            <td>{{facture?.netAPayer}}</td>
+
+          </tr>
+          <tr  style="border: 1px solid black;">
+            <td style="border: 1px solid black;"><b>Total Reste A Payer</b></td>
+            <td>{{facture?.resteAPayer}}</td>
+
+          </tr>
+
+          </tbody>
+        </table>
+
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+

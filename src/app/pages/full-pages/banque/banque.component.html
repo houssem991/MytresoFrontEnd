@@ -1,0 +1,39 @@
+
+<div class="container-fluid">
+    <div class="header-body">
+        <!-- Card stats -->
+
+        <div class="row">
+            <div class="col-xl-3 col-lg-6">
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary " *ngIf="access?.ajouter" [routerLink]="['/pages/ajouter-banque']">Ajouter</a>
+            <div class="card shadow border-0">
+                <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;">
+                    <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="banque" (custom)="onclicktable($event)"></ng2-smart-table>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+
+

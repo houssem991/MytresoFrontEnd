@@ -31,6 +31,7 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
   logoUrl = 'assets/img/Vector.png';
   public config: any = {};
   protected innerWidth: any;
+  identreprise: any;
   layoutSub: Subscription;
   configSub: Subscription;
   perfectScrollbarEnable = true;
@@ -40,6 +41,8 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
   idrole: any;
   iduser: any;
   user: any;
+  logo: any;
+  url: any ;
   namerole: any;
 
   constructor(
@@ -68,6 +71,13 @@ export class VerticalMenuComponent implements OnInit, OnDestroy {
       this.userService.findById(this.iduser).subscribe(
         data => {
           this.user = data ;
+          this.identreprise  = this.user.identreprise;
+          this.logo = this.user.logo;
+          if (this.logo == null && this.identreprise === 0 ) {
+            this.url = null
+          } else {
+            this.url = 'http://localhost:8080/api/auth/downloadFile/' + this.logo;
+          }
           console.log("user", this.user)
         }
       )

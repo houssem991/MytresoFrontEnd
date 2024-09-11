@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {TokenStorageService} from '../../../shared/services/token-storage.service';
 import {RoleService} from '../../../shared/services/role.service';
@@ -43,7 +43,8 @@ export class GestionrolesComponent implements OnInit {
   constructor(private router: Router, private tokenStorage: TokenStorageService,
               private roleService: RoleService,
               private utilisateurService: UtilisateurService,
-              private accessService: AccessService) {}
+              private accessService: AccessService,
+              private cdr: ChangeDetectorRef) {}
 
   getall(identreprise, idrole, iduser) {
     this.roleService.getall(identreprise, idrole, iduser).subscribe(data => {
@@ -116,10 +117,13 @@ export class GestionrolesComponent implements OnInit {
               title: '<a  href=""><i class="fa fa-eye px-1" aria-hidden="false" ></i></a>'
             })
           }
+             this.settings = this.clone(this.settings);
+             this.cdr.detectChanges();
         })
-
-
       })
     }
   }
+    clone(obj) {
+        return JSON.parse(JSON.stringify(obj));
+    }
 }

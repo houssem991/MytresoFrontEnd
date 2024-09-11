@@ -1,5 +1,5 @@
 <!-- Sidebar Header starts -->
-<div class="sidebar-header" *ngIf="config?.layout.menuPosition === 'Side' && user.identreprise == 0">
+<div class="sidebar-header" *ngIf="config?.layout.menuPosition === 'Side' && user?.identreprise == 0">
   <div class="logo clearfix">
     <a [routerLink]="['/']" class="logo-text float-left">
       <div class="logo-img">
@@ -19,13 +19,13 @@
     </a>
   </div>
 </div>
-<div class="sidebar-header" *ngIf="config?.layout.menuPosition === 'Side' && user.identreprise!= 0">
+<div class="sidebar-header" *ngIf="config?.layout.menuPosition === 'Side' && identreprise!= 0">
   <div class="logo clearfix">
     <a [routerLink]="['/']" class="logo-text float-left">
       <div class="logo-img">
-        <img class="avatar" *ngIf="user.identreprise != 0" src="http://localhost:8080/api/auth/downloadFile/{{user.logo}}" alt="avatar" height="35" width="35" />
+        <img class="avatar" *ngIf="identreprise != 0" src="{{url}}" alt="avatar" height="35" width="35" />
       </div>
-      <span class="text align-middle">{{user.nameEntreprise}}</span>
+      <span class="text align-middle">{{user?.nameEntreprise}}</span>
     </a>
     <a class="nav-toggle d-none d-lg-none d-xl-block" id="sidebarToggl" href="javascript:;"
        (click)="toggleSidebar()">
@@ -59,7 +59,7 @@
   </div>
 </div>
 <!-- Sidebar Content Ends -->
-<footer *ngIf="user.identreprise != 0">
+<footer *ngIf="identreprise != 0">
   <div class="logo clearfix">
     <a [routerLink]="['/']" class="logo-text float-left">
       <div class="logo-img">

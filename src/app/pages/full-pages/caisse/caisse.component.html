@@ -1,0 +1,85 @@
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-primary " *ngIf="access?.ajouter" [routerLink]="['/pages/ajouter-caisse']">Ajouter</a>
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;">
+          <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="caisse" (custom)="onclicktable($event,modalContent)"></ng2-smart-table>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+<ng-template #modalContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Alimenter la caisse</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSuccessful" (close)="isSuccessful = false">
+      <div class="alert-icon-left">
+        <i class="ft-thumbs-up mr-2"></i>
+        <span>{{message}}</span>
+      </div>
+    </ngb-alert>
+    <p>Entrer le montant pour alimenter la caisse</p>
+    <form [formGroup]="alimentationForm">
+      <div class="form-group">
+        <input type="number" formControlName="montant" class="form-control mb-2" placeholder="Montant"
+               [ngClass]="{ 'is-invalid': alimentationFormubmitted && rf.montant.invalid, 'is-valid': alimentationFormubmitted && !rf.montant.invalid }"
+               required>
+        <div *ngIf="alimentationFormubmitted && (rf.montant.invalid || rf.montant.errors?.required)"
+             class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+      </div>
+      <div class="form-group">
+        <ng-select [items]="Type" bindLabel="name" placeholder="Alimenation Banque ou Caisse" bindValue="name" formControlName="choice" >
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <ng-select [items]="banque"  *ngIf="alimentationForm.value.choice == 'Banque' " bindLabel="nom" placeholder="choisir une Banque" bindValue="id" formControlName="idbanque" >
+        </ng-select>
+      </div>
+      <div class="form-group">
+        <ng-select [items]="caisses"  *ngIf="alimentationForm.value.choice == 'Caisse' "bindLabel="libelle" placeholder="choisir une Caisse" bindValue="id" formControlName="idcaisse" >
+        </ng-select>
+      </div>
+      <ngx-spinner></ngx-spinner>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Close</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Alimenenter</button>
+      </div>
+
+    </form>
+  </div>
+
+</ng-template>
+
+

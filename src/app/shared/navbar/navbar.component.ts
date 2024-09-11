@@ -29,6 +29,9 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   searchOpenClass = "";
   transparentBGClass = "";
   hideSidebar: boolean = true;
+  identreprise: any;
+  image: any;
+  imageurl: any;
   public isCollapsed = true;
   layoutSub: Subscription;
   configSub: Subscription;
@@ -79,6 +82,13 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userService.findById(this.iduser).subscribe(
         data => {
           this.user = data ;
+          this.identreprise = this.user.identreprise;
+          this.image = this.user.image;
+          if (this.image == null) {
+            this.imageurl = 'assets/img/account-avatar-profile-user-11.svg';
+          } else {
+            this.imageurl = 'http://localhost:8080/api/auth/downloadFile/' + this.image;
+          }
           console.log("user", this.user)
         }
       )

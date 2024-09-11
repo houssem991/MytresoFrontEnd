@@ -21,7 +21,7 @@ export class UpdateRoleComponent implements OnInit {
   idrole: any;
   iduser: any;
   role: any;
-  constructor(private formBuilder: UntypedFormBuilder, private tokenStorage: TokenStorageService , private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService,private route: ActivatedRoute) {
+  constructor(private formBuilder: UntypedFormBuilder, private tokenStorage: TokenStorageService , private router: Router, private roleService: RoleService, private spinner: NgxSpinnerService, private route: ActivatedRoute) {
     this.idrole = this.route['params']['value']['id'];
    this.getById();
     this.roleForm = this.formBuilder.group({

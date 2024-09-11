@@ -1,0 +1,72 @@
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <a class="btn btn-primary" *ngIf="access?.ajouter" (click)="importer(iduser)">Importer</a>
+      <a class="btn btn-primary ft-printer" (click)="printTable()"></a>
+      <a class="btn btn-success" (click)="exportToExcel()"><i class="bi bi-file-earmark-excel"></i></a>
+
+      <div class="card shadow border-0">
+        <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSucces" (close)="isSucces = false">
+          <div class="alert-icon-left">
+            <i class="ft-thumbs-up mr-2"></i>
+            <span>{{message}}</span>
+          </div>
+        </ngb-alert>
+        <ngx-spinner></ngx-spinner>
+        <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="client" (custom)="onclicktable($event)"></ng2-smart-table>
+        <div id="printableContent" style="display:none;">
+          <table class="table table-responsive">
+            <thead>
+            <tr>
+              <th>Code</th>
+              <th>Nom</th>
+              <th>Adresse</th>
+              <th>Identifiant</th>
+              <th>Contact</th>
+              <th>Telecopie</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of client">
+              <td>{{ item.code }}</td>
+              <td>{{ item.nom }}</td>
+              <td>{{ item.adresse }}</td>
+              <td>{{ item.identifiant }}</td>
+              <td>{{ item.contact }}</td>
+              <td>{{ item.telecopie }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+

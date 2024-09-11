@@ -33,7 +33,6 @@ import { WINDOW_PROVIDERS } from './shared/services/window.service';
 import { authInterceptorProviders } from "./shared/auth/auth.interceptor";
 import { ManageAccesComponent } from './pages/full-pages/manage-acces/manage-acces.component';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
-
 var firebaseConfig = {
   apiKey: "AIzaSyC9XfnIpwNoSv7cyAsoccFQ5EYPd7lZXrk", //YOUR_API_KEY
   authDomain: "apex-angular.firebaseapp.com", //YOUR_AUTH_DOMAIN
@@ -52,7 +51,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 };
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
+  return new TranslateHttpLoader(http, './assets/i18n/', ".json");
 }
 
 @NgModule({

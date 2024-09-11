@@ -1,0 +1,53 @@
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+      <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSucces" (close)="isSucces = false">
+        <div class="alert-icon-left">
+          <i class="ft-thumbs-up mr-2"></i>
+          <span>{{message}}</span>
+        </div>
+      </ngb-alert>
+      <ngb-alert type="danger" class="mb-2" [dismissible]="false" *ngIf="isSuccesfailed" (close)="isSuccesfailed = false">
+        <div class="alert-icon-left">
+          <i class="ft-thumbs-up mr-2"></i>
+          <span>{{errormessage}}</span>
+        </div>
+      </ngb-alert>
+      <a class="btn btn-primary mb-3" *ngIf="access?.ajouter" (click)="importer()">Importer</a>
+      <a class="btn btn-primary mb-3" *ngIf="access?.ajouter" [routerLink]="['/pages/affectation/ajouter-affectation',idreglement]">Affecter</a>
+      <ngx-spinner></ngx-spinner>
+      <div class="card shadow border-0">
+        <div id="map-canvas" class="map-canvas" data-lat="40.748817" data-lng="-73.985428" style="height: 600px;">
+          <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="imputation" (custom)="onclicktable($event)"></ng2-smart-table>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+

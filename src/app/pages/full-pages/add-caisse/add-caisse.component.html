@@ -1,0 +1,55 @@
+<!--Registration Page Starts-->
+<section id="addcaisse">
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body">
+            <div class="row m-0">
+              <div class="col-lg-12 col-md-12 ">
+                <h4 class="card-title mb-2">Ajouter une caisse</h4>
+                <p>Veuillez remplir ce formulaire.</p>
+                <ngb-alert type="danger" class="mb-2" [dismissible]="false" *ngIf="isSignUpFailed" (close)="isSignUpFailed = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-down mr-2"></i>
+                    <span>{{errorMessage}}</span>
+                  </div>
+                </ngb-alert>
+                <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSuccessful" (close)="isSuccessful = false">
+                  <div class="alert-icon-left">
+                    <i class="ft-thumbs-up mr-2"></i>
+                    <span>caisse ajoutée avec succes !</span>
+                  </div>
+                </ngb-alert>
+                <ngx-spinner></ngx-spinner>
+                <form [formGroup]="caisseForm">
+                  <div class="form-group">
+                    <input type="text" formControlName="libelle" class="form-control mb-2" placeholder="Nom du caisse"
+                           [ngClass]="{ 'is-invalid': caisseFormSubmitted && rf.libelle.invalid, 'is-valid': caisseFormSubmitted && !rf.libelle.invalid }"
+                           required>
+                    <div *ngIf="caisseFormSubmitted && (rf.libelle.invalid || rf.libelle.errors?.required)"
+                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+                  </div>
+                  <div class="form-group">
+                    <input type="number" formControlName="solde" class="form-control mb-2" placeholder="Solde"
+                           [ngClass]="{ 'is-invalid': caisseFormSubmitted && rf.solde.invalid, 'is-valid': caisseFormSubmitted && !rf.solde.invalid }"
+                           required>
+                    <div *ngIf="caisseFormSubmitted && (rf.solde.invalid || rf.solde.errors?.required)"
+                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+                  </div>
+
+                  <div class="d-flex justify-content-between flex-sm-row flex-column">
+                    <a class="btn btn-primary" (click)="onSubmit()">ajouter</a>
+                  </div>
+                </form>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Registration Page Ends-->

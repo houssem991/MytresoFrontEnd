@@ -1,0 +1,98 @@
+
+<div class="container-fluid">
+    <div class="header-body">
+        <!-- Card stats -->
+
+        <div class="row">
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+            <div class="col-xl-3 col-lg-6">
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+    <div class="row">
+        <div class="col">
+            <a class="btn btn-primary mb-3" *ngIf="access?.ajouter" (click)="open(modalContent)">Importer</a>
+            <div class="card shadow border-0 p-3">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="startDate">Start Date</label>
+                        <input id="startDate" class="form-control" type="date" (change)="onStartDateChange($event)" placeholder="Start Date">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="endDate">End Date</label>
+                        <input id="endDate" class="form-control" type="date" (change)="onEndDateChange($event)" placeholder="End Date">
+                    </div>
+                </div>
+                <ng2-smart-table  class="table table-responsive" [settings]="settings" [source]="source" (custom)="onclicktable($event)"></ng2-smart-table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .form-control {
+        max-width: 300px;
+    }
+    [_nghost-wuu-c203] table tr td, [_nghost-wuu-c203] table tr th {
+        font-size: .875em;
+        margin: 0;
+        padding: .5em 1em;
+        color: red;
+    }
+</style>
+<ng-template #modalContent let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Importer</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSucces" (close)="isSucces = false">
+            <div class="alert-icon-left">
+                <i class="ft-thumbs-up mr-2"></i>
+                <span>{{message}}</span>
+            </div>
+        </ngb-alert>
+        <p>Entrer un interval de date pour importer les reglements des clients</p>
+        <form [formGroup]="entrepriseForm">
+            <div class="form-group">
+                <input type="date" formControlName="datedebut" class="form-control mb-2" placeholder="Date de debut"
+                       [ngClass]="{ 'is-invalid': entrepriseFormSubmitted && rf.datedebut.invalid, 'is-valid': entrepriseFormSubmitted && !rf.datedebut.invalid }"
+                       required>
+                <div *ngIf="entrepriseFormSubmitted && (rf.datedebut.invalid || rf.datedebut.errors?.required)"
+                     class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+            </div>
+            <div class="form-group">
+                <input type="date" formControlName="datefin" class="form-control mb-2" placeholder="Matricule Fiscale"
+                       [ngClass]="{ 'is-invalid': entrepriseFormSubmitted && rf.datefin.invalid, 'is-valid': entrepriseFormSubmitted && !rf.datefin.invalid }"
+                       required>
+                <div *ngIf="entrepriseFormSubmitted && (rf.datefin.invalid || rf.datefin.errors?.required)"
+                     class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+            </div>
+
+            <ngx-spinner></ngx-spinner>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Close</button>
+                <button type="button" class="btn btn-primary" (click)="importer()">Importer</button>
+            </div>
+
+        </form>
+    </div>
+
+</ng-template>
+
+

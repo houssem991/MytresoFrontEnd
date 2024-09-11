@@ -50,7 +50,7 @@
             <li class="nav-item">
               <div class="logo"><a class="logo-text" [routerLink]="['/']" *ngIf="config?.layout.menuPosition === 'Top'">
                   <div class="logo-img"><img class="logo-img" alt="Apex logo" [src]="logoUrl"></div><span
-                    class="text">APEX</span>
+                    class="text">MY TRESO</span>
                 </a></div>
             </li>
           </ul>
@@ -267,22 +267,22 @@
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">{{user.username}}</span>
-                <span class="text-right text-muted font-small-3"*ngIf="user.identreprise != 0">{{user.nameEntreprise}}</span>
-                <span class="text-right text-muted font-small-3"*ngIf="user.identreprise == 0">Disponible</span>
+                <span class="text-right">{{user?.username}}</span>
+                <span class="text-right text-muted font-small-3"*ngIf="identreprise != 0">{{user?.nameEntreprise}}</span>
+                <span class="text-right text-muted font-small-3"*ngIf="identreprise == 0">Disponible</span>
               </div>
-              <img class="avatar" *ngIf="user.image != null" src="http://localhost:8080/api/auth/downloadFile/{{user.image}}" alt="avatar" height="35" width="35" />
-              <img class="avatar" *ngIf="user.image == null" src="assets/img/account-avatar-profile-user-11.svg" alt="avatar" height="35" width="35" />
+              <img class="avatar" *ngIf="image != null" src="{{imageurl}}" alt="avatar" height="35" width="35" />
+              <img class="avatar" *ngIf="image == null" src="{{imageurl}}" alt="avatar" height="35" width="35" />
 
             </a>
             <div class="dropdown-menu text-left dropdown-menu-right m-0 pb-0" aria-labelledby="dropdownBasic2"
               ngbDropdownMenu>
-              <a class="dropdown-item" *ngIf="user.identreprise == 0 && user.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/addEntreprise">
+              <a class="dropdown-item" *ngIf="identreprise == 0 && user?.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/addEntreprise">
                 <div class="d-flex align-items-center">
                   <i class="ft-user mr-2"></i><span>Inviter des Collaborateurs</span>
                 </div>
               </a>
-              <a class="dropdown-item" *ngIf="user.identreprise != 0 && user.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/invite">
+              <a class="dropdown-item" *ngIf="identreprise != 0 && user?.roles[0].name == 'ROLE_USER'" routerLink="/pages/user/invite">
                 <div class="d-flex align-items-center">
                   <i class="ft-user mr-2"></i><span>Inviter des Collaborateurs</span>
                 </div>
@@ -292,6 +292,24 @@
                   <i class="ft-edit mr-2"></i><span>Edit Profile</span>
                 </div>
               </a>
+               <a class="nav-link dropdown-toggle user-dropdown " display="static" id="dropdownBasic3"
+                 href="javascript:;" data-toggle="dropdown" ngbDropdown  >
+                <div class="d-flex align-items-center "ngbDropdownToggle>
+                  <i class="ft-edit mr-2"></i><span>Parametre</span>
+                </div>
+                <div class="dropdown-menu text-left dropdown-menu-left m-0 pb-0" placement="left"     aria-labelledby="dropdownBasic3"
+                     ngbDropdownMenu >
+                  <a class="dropdown-item" routerLink="/pages/parametre/rs">
+                    <div class="d-flex align-items-center">
+                      <i class="ft-mail mr-2"></i><span>Paramétrage du retenue à la source</span>
+                    </div>
+                  </a>
+
+
+                </div>
+
+              </a>
+
               <a class="dropdown-item" routerLink="/inbox">
                 <div class="d-flex align-items-center">
                   <i class="ft-mail mr-2"></i><span>My Inbox</span>

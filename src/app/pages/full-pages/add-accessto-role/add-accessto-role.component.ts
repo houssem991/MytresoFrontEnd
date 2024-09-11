@@ -23,7 +23,7 @@ export class AddAccesstoRoleComponent implements OnInit {
     this.idrole = this.route['params']['value']['id'];
     this.AccessRoleForm = this.formBuilder.group({
       roleid: [''],
-      accesid: ['', Validators.required],
+      accesid: [null, Validators.required],
       ajouter: [''],
       modifier: [''],
       supprimer: [''],
