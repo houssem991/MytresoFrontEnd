@@ -25,6 +25,9 @@ export class ImpayeFournisseursComponent implements OnInit {
       num: {
         title: 'Num'
       },
+      tiers: {
+        title: 'Fournisseur'
+      },
       dateReglement: {
         title: 'Date'
       },
@@ -40,20 +43,8 @@ export class ImpayeFournisseursComponent implements OnInit {
       soldeRestant: {
         title: 'Solde Restant'
       },
-      soldeDev: {
-        title: 'SoldeDev'
-      },
-      estAffecte: {
-        title: 'EstAffecte'
-      },
       estComptablise: {
         title: 'EstComptablise'
-      },
-      type: {
-        title: 'Type'
-      },
-      numPiece: {
-        title: 'NumPiece'
       },
       etat: {
         title: 'Etat',
@@ -74,9 +65,6 @@ export class ImpayeFournisseursComponent implements OnInit {
         valuePrepareFunction: (cell, row) => {
           return { value: cell, class: row.impaye ? 'text-danger' : '' };
         }
-      },
-      tiers: {
-        title: 'Fournisseur'
       },
     },
     attr: {

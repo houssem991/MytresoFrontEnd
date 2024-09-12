@@ -11,7 +11,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ClientsService} from '../../../shared/services/clients.service';
 import {RsService} from '../../../shared/services/rs.service';
-
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-reglements-clients',
   templateUrl: './reglements-clients.component.html',
@@ -25,6 +26,9 @@ export class ReglementsClientsComponent implements OnInit {
       num: {
         title: 'Num'
       },
+      tiers: {
+        title: 'Clients'
+      },
       dateReglement: {
         title: 'Date'
       },
@@ -37,23 +41,11 @@ export class ReglementsClientsComponent implements OnInit {
       solde: {
         title: 'Solde'
       },
-      soldeDev: {
-        title: 'SoldeDev'
-      },
       soldeRestant: {
         title: 'Solde Restant'
       },
-      estAffecte: {
-        title: 'EstAffecte'
-      },
       estComptablise: {
         title: 'EstComptablise'
-      },
-      type: {
-        title: 'Type'
-      },
-      numPiece: {
-        title: 'NumPiece'
       },
       etat: {
         title: 'Etat',
@@ -69,8 +61,11 @@ export class ReglementsClientsComponent implements OnInit {
           }
         }
       },
-      tiers: {
-        title: 'Clients'
+      impaye: {
+        title: 'Impaye',
+        valuePrepareFunction: (cell, row) => {
+          return { value: cell, class: row.impaye ? 'text-danger' : '' };
+        }
       },
     },
     attr: {
@@ -194,7 +189,27 @@ export class ReglementsClientsComponent implements OnInit {
     );
     console.log(this.isSucces, this.isSignUpFailed)
   }
+  exportToExcel(): void {
+    // Créer une nouvelle feuille de calcul
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reglements);
 
+    // Créer un nouveau classeur
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'reglementclient': worksheet },
+      SheetNames: ['reglementclient']
+    };
+
+    // Convertir le classeur en binaire
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Appeler la fonction pour sauvegarder le fichier Excel
+    this.saveAsExcelFile(excelBuffer, 'reglementclient');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, `${fileName}_export.xlsx`);
+  }
   openChoice(template1, template2): void {
     if (this.typeForm.value.type === 'Espèce') {
       this.modalService.open(template1);
@@ -378,3 +393,4 @@ export class ReglementsClientsComponent implements OnInit {
   }
 
 }
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

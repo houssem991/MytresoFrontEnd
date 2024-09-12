@@ -25,6 +25,9 @@ export class ReglementsService {
   getallByClient(id): Observable<any> {
     return this.http.get(`${API_URL + 'findallC'}/${id}`);
   }
+  getallEcheancierFournisseus(id): Observable<any> {
+    return this.http.get(`${API_URL + 'echeanceF/all'}/${id}`);
+  }
   getallReglementsFournisseurs(id): Observable<any> {
     return this.http.get(`${API_URL + 'alll'}/${id}`);
   }

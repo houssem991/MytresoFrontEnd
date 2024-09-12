@@ -62,6 +62,8 @@ import { MouvementCaisseComponent } from './mouvement-caisse/mouvement-caisse.co
 import { ParametrageRsComponent } from './parametrage-rs/parametrage-rs.component';
 import { AddRSComponent } from './add-rs/add-rs.component';
 import { UpdateRSComponent } from './update-rs/update-rs.component';
+import { EcheanceClientComponent } from './echeance-client/echeance-client.component';
+import { EcheanceFournisseursComponent } from './echeance-fournisseurs/echeance-fournisseurs.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -127,6 +129,8 @@ import { UpdateRSComponent } from './update-rs/update-rs.component';
     ParametrageRsComponent,
     AddRSComponent,
     UpdateRSComponent,
+    EcheanceClientComponent,
+    EcheanceFournisseursComponent,
   ],
 })
 export class FullPagesModule {}

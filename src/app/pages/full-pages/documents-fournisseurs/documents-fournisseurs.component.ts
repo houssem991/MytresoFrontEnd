@@ -13,7 +13,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CaisseService} from '../../../shared/services/caisse.service';
 import {RsService} from '../../../shared/services/rs.service';
 import {BanqueService} from '../../../shared/services/banque.service';
-
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-documents-fournisseurs',
   templateUrl: './documents-fournisseurs.component.html',
@@ -161,6 +162,27 @@ export class DocumentsFournisseursComponent implements OnInit {
       this.source = new LocalDataSource(this.facture);
     });
   }
+  exportToExcel(): void {
+    // Créer une nouvelle feuille de calcul
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.facture);
+
+    // Créer un nouveau classeur
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'documentfournisseur': worksheet },
+      SheetNames: ['documentfournisseur']
+    };
+
+    // Convertir le classeur en binaire
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Appeler la fonction pour sauvegarder le fichier Excel
+    this.saveAsExcelFile(excelBuffer, 'documentfournisseur');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, `${fileName}_export.xlsx`);
+  }
   getallRs() {
     this.rsService.getall().subscribe(data => {
       console.log(data);
@@ -302,3 +324,4 @@ export class DocumentsFournisseursComponent implements OnInit {
     return JSON.parse(JSON.stringify(obj));
   }
 }
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';

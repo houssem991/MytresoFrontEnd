@@ -12,7 +12,8 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {CaisseService} from '../../../shared/services/caisse.service';
 import {BanqueService} from '../../../shared/services/banque.service';
 import {RsService} from '../../../shared/services/rs.service';
-
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 @Component({
   selector: 'app-document-clients',
   templateUrl: './document-clients.component.html',
@@ -135,7 +136,27 @@ export class DocumentClientsComponent implements OnInit {
     this.endDate = event.target.value;
     this.applyFilter();
   }
+  exportToExcel(): void {
+    // Créer une nouvelle feuille de calcul
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.facture);
 
+    // Créer un nouveau classeur
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'documentclient': worksheet },
+      SheetNames: ['documentclient']
+    };
+
+    // Convertir le classeur en binaire
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Appeler la fonction pour sauvegarder le fichier Excel
+    this.saveAsExcelFile(excelBuffer, 'documentclient');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, `${fileName}_export.xlsx`);
+  }
   applyFilter() {
     let filteredData = this.facture;
 
@@ -314,5 +335,6 @@ export class DocumentClientsComponent implements OnInit {
   }
 }
 
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
 

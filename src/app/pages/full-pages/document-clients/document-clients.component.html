@@ -25,18 +25,10 @@
   <div class="row">
     <div class="col">
       <a class="btn btn-primary mb-3" *ngIf="access?.ajouter" (click)="importer(idfournisseur)">Importer</a>
+      <a class="btn btn-success mb-3" *ngIf="access?.consulter"(click)="exportToExcel()"><i class="bi bi-file-earmark-excel">Exporter</i></a>
+      <a class="btn btn-primary mb-3" (click)="open(modalContent1)"><i class="">Filtrer</i></a>
       <ngx-spinner></ngx-spinner>
       <div class="card shadow border-0 p-3">
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="startDate">Start Date</label>
-            <input id="startDate" class="form-control" type="date" (change)="onStartDateChange($event)" placeholder="Start Date">
-          </div>
-          <div class="col-md-6">
-            <label for="endDate">End Date</label>
-            <input id="endDate" class="form-control" type="date" (change)="onEndDateChange($event)" placeholder="End Date">
-          </div>
-        </div>
         <ng2-smart-table class="table table-responsive" [settings]="settings" [source]="source" (custom)="onclicktable($event, modalContent)"></ng2-smart-table>
       </div>
     </div>
@@ -140,6 +132,32 @@
       </div>
 
     </form>
+  </div>
+
+</ng-template>
+<ng-template #modalContent1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">Regler la facture</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="startDate">Start Date</label>
+        <input id="startDate" class="form-control" type="date" (change)="onStartDateChange($event)" placeholder="Start Date">
+      </div>
+      <div class="col-md-6">
+        <label for="endDate">End Date</label>
+        <input id="endDate" class="form-control" type="date" (change)="onEndDateChange($event)" placeholder="End Date">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary" (click)="modal.close('Close click')">Filtrer</button>
   </div>
 
 </ng-template>

@@ -47,6 +47,8 @@ import {MouvementCaisseComponent} from './mouvement-caisse/mouvement-caisse.comp
 import {ParametrageRsComponent} from './parametrage-rs/parametrage-rs.component';
 import {AddRSComponent} from './add-rs/add-rs.component';
 import {UpdateRSComponent} from './update-rs/update-rs.component';
+import {EcheanceFournisseursComponent} from './echeance-fournisseurs/echeance-fournisseurs.component';
+import {EcheanceClientComponent} from './echeance-client/echeance-client.component';
 
 export const routes: Routes = [
   {
@@ -313,6 +315,20 @@ export const routes: Routes = [
         component: ImpayeFournisseursComponent,
         data: {
           title: 'Impayes Foournisseurs'
+        }
+      },
+      {
+        path: 'gestion-echeancier-fournissseurs',
+        component: EcheanceFournisseursComponent,
+        data: {
+          title: 'Echeances Foournisseurs'
+        }
+      },
+      {
+        path: 'gestion-echeancier-Clients',
+        component: EcheanceClientComponent,
+        data: {
+          title: 'Echeances Clients'
         }
       },
       {

@@ -1,25 +1,24 @@
-import {AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, Renderer2} from '@angular/core';
+import {LocalDataSource} from 'ng2-smart-table';
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {TokenStorageService} from '../../../shared/services/token-storage.service';
 import {RoleService} from '../../../shared/services/role.service';
-import {FournisseursService} from '../../../shared/services/fournisseurs.service';
+import {ReglementsService} from '../../../shared/services/reglements.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {UtilisateurService} from '../../../shared/services/utilisateur.service';
-import {AccessService} from '../../../shared/services/acces.service';
-import {ReglementsService} from '../../../shared/services/reglements.service';
-import {LocalDataSource} from 'ng2-smart-table';
-import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {CaisseService} from '../../../shared/services/caisse.service';
 import {RsService} from '../../../shared/services/rs.service';
-import * as XLSX from 'xlsx';
-import { saveAs } from 'file-saver';
+import {FournisseursService} from '../../../shared/services/fournisseurs.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AccessService} from '../../../shared/services/acces.service';
+
 @Component({
-  selector: 'app-reglements-fournisseurs',
-  templateUrl: './reglements-fournisseurs.component.html',
-  styleUrls: ['./reglements-fournisseurs.component.scss']
+  selector: 'app-echeance-fournisseurs',
+  templateUrl: './echeance-fournisseurs.component.html',
+  styleUrls: ['./echeance-fournisseurs.component.scss']
 })
-export class ReglementsFournisseursComponent implements OnInit {
+export class EcheanceFournisseursComponent implements OnInit {
+
   source: LocalDataSource;
   startDate: string;
   endDate: string;
@@ -28,9 +27,6 @@ export class ReglementsFournisseursComponent implements OnInit {
     columns: {
       num: {
         title: 'Num'
-      },
-      tiers: {
-        title: 'Fournisseur'
       },
       dateReglement: {
         title: 'Date'
@@ -47,28 +43,43 @@ export class ReglementsFournisseursComponent implements OnInit {
       soldeRestant: {
         title: 'Solde Restant'
       },
+      soldeDev: {
+        title: 'SoldeDev'
+      },
+      estAffecte: {
+        title: 'EstAffecte'
+      },
       estComptablise: {
         title: 'EstComptablise'
       },
-        etat: {
-            title: 'Etat',
-            filter: {
-                type: 'list',
-                config: {
-                    selectText: 'select .....',
-                    list: [
-                        {value: 'NonAffecter', title: 'NonAffecter'},
-                        {value: 'PartAffecter', title: 'PartAffecter'},
-                        {value: 'TotAffecter', title: 'TotAffecter'},
-                    ]
-                }
-            }
-        },
+      type: {
+        title: 'Type'
+      },
+      numPiece: {
+        title: 'NumPiece'
+      },
+      etat: {
+        title: 'Etat',
+        filter: {
+          type: 'list',
+          config: {
+            selectText: 'select .....',
+            list: [
+              {value: 'NonAffecter', title: 'NonAffecter'},
+              {value: 'PartAffecter', title: 'PartAffecter'},
+              {value: 'TotAffecter', title: 'TotAffecter'},
+            ]
+          }
+        }
+      },
       impaye: {
         title: 'Impaye',
         valuePrepareFunction: (cell, row) => {
           return { value: cell, class: row.impaye ? 'text-danger' : '' };
         }
+      },
+      tiers: {
+        title: 'Fournisseur'
       },
     },
     attr: {
@@ -107,6 +118,7 @@ export class ReglementsFournisseursComponent implements OnInit {
   namerole: any;
   idrole: any;
   identreprise: any;
+  openIndices: Set<number> = new Set<number>();
   access: any;
   rolee: any;
   rs: any;
@@ -150,8 +162,8 @@ export class ReglementsFournisseursComponent implements OnInit {
     this.startDate = event.target.value;
     this.applyFilter();
   }
-retourImpaye(num): void {
-  this.spinner.show(undefined,
+  retourImpaye(num): void {
+    this.spinner.show(undefined,
       {
         type: 'ball-triangle-path',
         size: 'medium',
@@ -167,27 +179,6 @@ retourImpaye(num): void {
         this.isSuccessful = false ;
       }, 5000 )
     });
-}
-exportToExcel(): void {
-    // Créer une nouvelle feuille de calcul
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reglements);
-
-    // Créer un nouveau classeur
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'reglementsfournisseur': worksheet },
-      SheetNames: ['reglementsfournisseur']
-    };
-
-    // Convertir le classeur en binaire
-    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-    // Appeler la fonction pour sauvegarder le fichier Excel
-    this.saveAsExcelFile(excelBuffer, 'reglementsfournisseur');
-  }
-
-  private saveAsExcelFile(buffer: any, fileName: string): void {
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    saveAs(data, `${fileName}_export.xlsx`);
   }
   onEndDateChange(event: any) {
     this.endDate = event.target.value;
@@ -210,7 +201,7 @@ exportToExcel(): void {
     this.modalService.open(content);
   }
   getall(iduser) {
-    this.reglementsService.getallReglementsFournisseurs(iduser).subscribe(data => {
+    this.reglementsService.getallEcheancierFournisseus(iduser).subscribe(data => {
       console.log(data);
       this.reglements = data;
       this.source = new LocalDataSource(this.reglements);
@@ -229,6 +220,15 @@ exportToExcel(): void {
       window.location.reload();
     });
   }
+   // index de la ligne actuellement ouverte
+  toggleDetails(index: number) {
+    if (this.openIndices.has(index)) {
+      this.openIndices.delete(index); // Fermer la ligne si elle est déjà ouverte
+    } else {
+      this.openIndices.add(index); // Ouvrir la ligne
+    }
+  }
+
   printTable() {
     const printableContent = document.getElementById('printableContent');
     const originalContent = document.body.innerHTML;
@@ -290,55 +290,34 @@ exportToExcel(): void {
       return;
     }
     this.spinner.show(undefined,
-        {
-          type: 'ball-triangle-path',
-          size: 'medium',
-          bdColor: 'rgba(0, 0, 0, 0.8)',
-          color: '#fff',
-          fullScreen: true
-        });
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
     console.log(this.alimentationForm);
     this.reglementsService.addFournisseurs(this.alimentationForm ).subscribe(
-        data => {
-          console.log('message', data['message'])
-          this.isSucces = true;
-          this.isSignUpFailed = false;
-          this.spinner.hide()
-          this.message = data['message']
-          setTimeout(() => {
-            this.isSucces = false;
-            window.location.reload()
-          }, 2000);
-        },
-        err => {
-          this.errorMessage = err.error.message;
+      data => {
+        console.log('message', data['message'])
+        this.isSucces = true;
+        this.isSignUpFailed = false;
+        this.spinner.hide()
+        this.message = data['message']
+        setTimeout(() => {
           this.isSucces = false;
-          this.isSignUpFailed = true;
-          this.spinner.hide();
-        }
+          window.location.reload()
+        }, 2000);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSucces = false;
+        this.isSignUpFailed = true;
+        this.spinner.hide();
+      }
     );
     console.log(this.isSucces, this.isSignUpFailed)
-  }
-  onclicktable($event) {
-    if ($event.action === 'update') {
-      this.router.navigate(['pages/modifier-role', $event['data']['id']]);
-    } else if ($event.action === 'impaye') {
-      this.retourImpaye($event['data']['num'])
-    } else if ($event.action === 'show') {
-      this.router.navigate(['pages/affectation', $event['data']['num']]);
-    } else if ($event.action === 'delete') {
-      if (window.confirm('Voulez vous vraiment supprimer ce role?')) {
-        this.delete($event['data']['id']);
-        window.location.reload();
-
-      } else {
-        $event.confirm.reject();
-      }
-    } else {
-      this.router.navigate(['pages/gestion-fournisseurs/facture', $event['data']['id']]);
-
-    }
-
   }
 
   ngOnInit() {
@@ -382,6 +361,5 @@ exportToExcel(): void {
   clone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
-}
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
+}
