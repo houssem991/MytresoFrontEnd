@@ -64,6 +64,10 @@ import { AddRSComponent } from './add-rs/add-rs.component';
 import { UpdateRSComponent } from './update-rs/update-rs.component';
 import { EcheanceClientComponent } from './echeance-client/echeance-client.component';
 import { EcheanceFournisseursComponent } from './echeance-fournisseurs/echeance-fournisseurs.component';
+import { InitialComponent } from './initial/initial.component';
+import { AddInitialComponent } from './add-initial/add-initial.component';
+import { UpdateInitialComponent } from './update-initial/update-initial.component';
+import { MouvementBanqueComponent } from './mouvement-banque/mouvement-banque.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -131,6 +135,10 @@ import { EcheanceFournisseursComponent } from './echeance-fournisseurs/echeance-
     UpdateRSComponent,
     EcheanceClientComponent,
     EcheanceFournisseursComponent,
+    InitialComponent,
+    AddInitialComponent,
+    UpdateInitialComponent,
+    MouvementBanqueComponent,
   ],
 })
 export class FullPagesModule {}

@@ -26,8 +26,8 @@ export class ReglementsFournisseursComponent implements OnInit {
   reglements: any;
   settings = {
     columns: {
-      num: {
-        title: 'Num'
+      code: {
+        title: 'Code'
       },
       tiers: {
         title: 'Fournisseur'
@@ -142,7 +142,6 @@ export class ReglementsFournisseursComponent implements OnInit {
       banque: [''],
       numpiece : [''],
       solde: ['', Validators.required],
-      soldedev: ['', Validators.required],
       idfournisseur: [null],
     })
   }

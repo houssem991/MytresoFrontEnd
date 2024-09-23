@@ -3,13 +3,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {th} from 'date-fns/locale';
 
-const API_URL = 'http://localhost:8080/api/imputation/';
+const API_URL = 'http://localhost:8080/api/initial/';
 const TOKEN_KEY = 'auth-token';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ImputationService {
+export class InitialService {
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -20,8 +20,8 @@ export class ImputationService {
   constructor(private http: HttpClient) {
   }
 
-  getall(id): Observable<any> {
-    return this.http.get(`${API_URL + 'all'}/${id}`);
+  getall(): Observable<any> {
+    return this.http.get(API_URL + 'all');
   }
   findById(id): Observable<any> {
     return this.http.get(`${API_URL + 'find'}/${id}`);
@@ -30,25 +30,19 @@ export class ImputationService {
   delete(id) {
     return this.http.delete(`${API_URL + 'delete'}/${id}`);
   }
-   add(imputation) {
+   add(banque) {
      return this.http.post(`${API_URL + 'add'}`, {
-       montant: imputation.value.montant,
-       idcaisse: imputation.value.idcaisse,
-       idreglement: imputation.value.idreglement,
-       idbanque: imputation.value.idbanque,
-       piece: imputation.value.piece,
+       element: banque.value.element,
+       initial: banque.value.initial,
+       iduser: banque.value.iduser,
      }, this.httpOptions);
    }
-  update(id, imputation) {
+  update(id, banque) {
     return this.http.put(`${API_URL + 'update'}/${id}`, {
-      montant: imputation.value.montant,
-      idcaisse: imputation.value.idcaisse,
-      idreglement: imputation.value.idreglement,
-      piece: imputation.value.piece,
+      element: banque.value.element,
+      initial: banque.value.initial,
+      iduser: banque.value.iduser,
     }, this.httpOptions);
-  }
-  importer(id): Observable<any> {
-    return this.http.post(`${API_URL + 'importer'}/${id}`, {}, this.httpOptions);
   }
 
 

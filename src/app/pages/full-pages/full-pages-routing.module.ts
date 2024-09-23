@@ -49,6 +49,10 @@ import {AddRSComponent} from './add-rs/add-rs.component';
 import {UpdateRSComponent} from './update-rs/update-rs.component';
 import {EcheanceFournisseursComponent} from './echeance-fournisseurs/echeance-fournisseurs.component';
 import {EcheanceClientComponent} from './echeance-client/echeance-client.component';
+import {InitialComponent} from './initial/initial.component';
+import {AddInitialComponent} from './add-initial/add-initial.component';
+import {UpdateInitialComponent} from './update-initial/update-initial.component';
+import {MouvementBanqueComponent} from './mouvement-banque/mouvement-banque.component';
 
 export const routes: Routes = [
   {
@@ -325,6 +329,27 @@ export const routes: Routes = [
         }
       },
       {
+        path: 'parametre/initialisation',
+        component: InitialComponent,
+        data: {
+          title: 'Initialisation'
+        }
+      },
+      {
+        path: 'parametre/ajouter-initial',
+        component: AddInitialComponent,
+        data: {
+          title: 'AddInitialisation'
+        }
+      },
+      {
+        path: 'parametre/modifier-initial/:id',
+        component: UpdateInitialComponent,
+        data: {
+          title: 'UpdateInitialisation'
+        }
+      },
+      {
         path: 'gestion-echeancier-Clients',
         component: EcheanceClientComponent,
         data: {
@@ -350,6 +375,13 @@ export const routes: Routes = [
         component: MouvementCaisseComponent,
         data: {
           title: 'Mouvement Caisse'
+        }
+      },
+      {
+        path: 'banque/mouvement/:id',
+        component: MouvementBanqueComponent,
+        data: {
+          title: 'Mouvement Banque'
         }
       },
       {

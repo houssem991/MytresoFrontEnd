@@ -3,33 +3,27 @@ import {UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {TokenStorageService} from '../../../shared/services/token-storage.service';
 import {RoleService} from '../../../shared/services/role.service';
-import {BanqueService} from '../../../shared/services/banque.service';
+import {InitialService} from '../../../shared/services/initial.service';
 import {NgxSpinnerService} from 'ngx-spinner';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {UtilisateurService} from '../../../shared/services/utilisateur.service';
 import {AccessService} from '../../../shared/services/acces.service';
 
 @Component({
-  selector: 'app-banque',
-  templateUrl: './banque.component.html',
-  styleUrls: ['./banque.component.scss']
+  selector: 'app-initial',
+  templateUrl: './initial.component.html',
+  styleUrls: ['./initial.component.scss']
 })
-export class BanqueComponent implements OnInit {
+export class InitialComponent implements OnInit {
 
-  banque: any;
+  initial: any;
   settings = {
     columns: {
-      nom: {
-        title: 'Nom'
+      element: {
+        title: 'Element'
       },
-      adresse: {
-        title: 'Adresse'
-      },
-      telephone: {
-        title: 'Telephone'
-      },
-      solde: {
-        title: 'Solde'
+      initial: {
+        title: 'Inititailisation'
       },
     },
     attr: {
@@ -53,8 +47,8 @@ export class BanqueComponent implements OnInit {
   identreprise: any;
   access: any;
   rolee: any;
-  alimentationForm: UntypedFormGroup;
-  alimentationFormubmitted = false;
+  initialForm: UntypedFormGroup;
+  initialFormubmitted = false;
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
@@ -63,44 +57,43 @@ export class BanqueComponent implements OnInit {
 
   constructor(private router: Router, private tokenStorage: TokenStorageService,
               private roleService: RoleService,
-              private banqueService: BanqueService,
+              private initialService: InitialService,
               private spinner: NgxSpinnerService,
               private modalService: NgbModal,
               private formBuilder: UntypedFormBuilder,
               private utilisateurService: UtilisateurService,
               private accessService: AccessService,
               private cdr: ChangeDetectorRef) {
-    this.alimentationForm = this.formBuilder.group({
-      montant: ['', Validators.required],
+    this.initialForm = this.formBuilder.group({
+      pourcentage: ['', Validators.required],
     })
   }
 
   getall() {
-    this.banqueService.getall().subscribe(data => {
+    this.initialService.getall().subscribe(data => {
       console.log(data);
-      this.banque = data;
+      this.initial = data;
     });
 
   }
 
   delete($id) {
-    this.banqueService.delete($id).subscribe(data => {
+    this.initialService.delete($id).subscribe(data => {
       window.location.reload();
     });
   }
   get rf() {
-    return this.alimentationForm.controls;
+    return this.initialForm.controls;
   }
   open(content) {
     this.modalService.open(content);
   }
   onclicktable($event) {
     if ($event.action === 'update') {
-      this.router.navigate(['pages/modifier-banque', $event['data']['id']]);
+      this.router.navigate(['pages/parametre/modifier-initial', $event['data']['id']]);
     } else if ($event.action === 'show') {
-      this.router.navigate(['pages/banque/mouvement', $event['data']['id']]);
     } else if ($event.action === 'delete') {
-      if (window.confirm('Voulez vous vraiment supprimer cette banque?')) {
+      if (window.confirm('Voulez vous vraiment supprimer cette initialisation?')) {
         this.delete($event['data']['id']);
         window.location.reload();
 
@@ -121,42 +114,37 @@ export class BanqueComponent implements OnInit {
         this.rolee = data;
         this.idrole = this.rolee.id;
         this.utilisateurService.findById(this.iduser).subscribe(
-            data1 => {
-              this.identreprise = data1.identreprise ;
-              console.log('user', this.user)
-              this.getall();
-            });
+          data1 => {
+            this.identreprise = data1.identreprise ;
+            console.log('user', this.user)
+            this.getall();
+          });
         console.log('data', data)
         this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Banque').subscribe(
-            data1 => {
-              this.access = data1
-              console.log('m', this.access)
-              if (this.access.supprimer === true) {
-                this.settings.actions.custom.push({
-                  name: 'delete',
-                  title: '<a  href=""  ><i class="fa fa-trash px-1" aria-hidden="true"></i></a>'
-                })
-              }
-              if (this.access.modifier === true) {
-                this.settings.actions.custom.push({
-                  name: 'update',
-                  title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
-                })
-              }
-              if (this.access.consulter === true) {
-                this.settings.actions.custom.push({
-                  name: 'show',
-                  title: '<a  href=""><i class="fa fa-eye px-1" aria-hidden="false" ></i></a>'
-                })
-              }
-              this.settings = this.clone(this.settings);
-              this.cdr.detectChanges();
-            })
+          data1 => {
+            this.access = data1
+            console.log('m', this.access)
+            if (this.access.supprimer === true) {
+              this.settings.actions.custom.push({
+                name: 'delete',
+                title: '<a  href=""  ><i class="fa fa-trash px-1" aria-hidden="true"></i></a>'
+              })
+            }
+            if (this.access.modifier === true) {
+              this.settings.actions.custom.push({
+                name: 'update',
+                title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
+              })
+            }
+            this.settings = this.clone(this.settings);
+            this.cdr.detectChanges();
+          })
       })
     }
   }
   clone(obj) {
     return JSON.parse(JSON.stringify(obj));
   }
+
 
 }

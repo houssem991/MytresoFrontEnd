@@ -1,1 +1,87 @@
-<p>echeance-client works!</p>
+
+<div class="container-fluid">
+  <div class="header-body">
+    <!-- Card stats -->
+
+    <div class="row">
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+      <div class="col-xl-3 col-lg-6">
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col">
+
+      <div class="card shadow border-0 p-3">
+        <table class="table table-hover table-responsive">
+          <thead>
+          <tr>
+            <th style="width: 10%"></th>
+            <th class="text-primary" scope="col">Echéance</th>
+            <th class="text-primary" scope="col">N°Reglement</th>
+            <th class="text-primary" scope="col">Libelle</th>
+            <th class="text-primary" scope="col">Montant</th>
+            <th class="text-primary" scope="col">N°Client</th>
+          </tr>
+          </thead>
+          <tbody>
+          <ng-container *ngFor="let reg of reglements; let i = index">
+
+            <tr  (click)="toggleDetails(i)">
+              <td style="width: 10%" class="text-italic text-bold-700 text-warning">{{reg.date}} [{{reg.somme}}]</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <!-- ngIf vérifie si l'index ouvert correspond à l'index de la ligne cliquée -->
+            <ng-container *ngIf="openIndices.has(i) && reg.date< today">
+              <tr *ngFor="let r of reg.reglements">
+                <td style="width: 10%" class="text-danger"></td>
+                <td class="text-danger">{{r.dateEcheance}}</td>
+                <td class="text-danger">{{r.num}}</td>
+                <td class="text-danger">{{r.libelle}}</td>
+                <td class="text-danger">{{r.solde}}</td>
+                <td class="text-danger">{{r.tiers}}</td>
+              </tr>
+            </ng-container>
+            <ng-container *ngIf="openIndices.has(i) && reg.date>= today">
+              <tr *ngFor="let r of reg.reglements">
+                <td style="width: 10%" class="text-danger"></td>
+                <td>{{r.dateEcheance}}</td>
+                <td>{{r.num}}</td>
+                <td>{{r.libelle}}</td>
+                <td>{{r.solde}}</td>
+                <td>{{r.tiers}}</td>
+              </tr>
+            </ng-container>
+          </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<ngx-spinner></ngx-spinner>
+<style>
+  .form-control {
+    max-width: 300px;
+  }
+
+</style>
+
+
+

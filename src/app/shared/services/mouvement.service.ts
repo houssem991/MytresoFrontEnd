@@ -28,4 +28,12 @@ export class MouvementService {
   delete(id) {
     return this.http.delete(`${API_URL + 'delete'}/${id}`);
   }
+  getallBanque(id): Observable<any> {
+    return this.http.get(`${API_URL + 'all/banque'}/${id}`);
+  }
+
+
+  deleteBanque(id) {
+    return this.http.delete(`${API_URL + 'delete/banque'}/${id}`);
+  }
 }

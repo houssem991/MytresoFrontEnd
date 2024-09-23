@@ -18,17 +18,18 @@ export class ImputationComponent implements OnInit {
   imputation: any;
   settings = {
     columns: {
-      dr_No: {
-        title: 'DR_No'
-      },
-      num: {
-        title: 'Numero du reglement'
-      },
       piece: {
         title: 'Numero de facture'
       },
+      code: {
+        title: 'Code du reglement'
+      },
+
       montant: {
         title: 'Montant'
+      },
+      etat: {
+        title: 'Etat'
       },
     },
     attr: {

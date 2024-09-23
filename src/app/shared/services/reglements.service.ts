@@ -28,6 +28,9 @@ export class ReglementsService {
   getallEcheancierFournisseus(id): Observable<any> {
     return this.http.get(`${API_URL + 'echeanceF/all'}/${id}`);
   }
+  getallEcheancierClients(id): Observable<any> {
+    return this.http.get(`${API_URL + 'echeanceC/all'}/${id}`);
+  }
   getallReglementsFournisseurs(id): Observable<any> {
     return this.http.get(`${API_URL + 'alll'}/${id}`);
   }

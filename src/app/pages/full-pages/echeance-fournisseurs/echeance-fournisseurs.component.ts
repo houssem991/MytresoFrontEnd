@@ -120,6 +120,7 @@ export class EcheanceFournisseursComponent implements OnInit {
   identreprise: any;
   openIndices: Set<number> = new Set<number>();
   access: any;
+  today: any;
   rolee: any;
   rs: any;
   caisse: any;
@@ -138,25 +139,13 @@ export class EcheanceFournisseursComponent implements OnInit {
               private renderer: Renderer2,
               private accessService: AccessService,
               private cdr: ChangeDetectorRef) {
-    this.entrepriseForm = this.formBuilder.group({
-      datedebut: [null, Validators.required],
-      datefin: [null, Validators.required],
-    })
-    this.typeForm = this.formBuilder.group({
-      type: [null , Validators.required],
-    })
-    this.alimentationForm = this.formBuilder.group({
-      reference: [''],
-      rs: [false],
-      dateEcheance: [Date],
-      percentageRs: [null],
-      type: [null],
-      banque: [''],
-      numpiece : [''],
-      solde: ['', Validators.required],
-      soldedev: ['', Validators.required],
-      idfournisseur: [null],
-    })
+    this.today = this.getFormattedDate(new Date())
+  }
+  getFormattedDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Ajoute un zéro si nécessaire
+    const day = ('0' + date.getDate()).slice(-2);          // Ajoute un zéro si nécessaire
+    return `${year}-${month}-${day}`;
   }
   onStartDateChange(event: any) {
     this.startDate = event.target.value;

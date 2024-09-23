@@ -37,7 +37,7 @@ export class InviterCollaborateurComponent implements OnInit {
     this.entrepriseForm = this.formBuilder.group({
       emailCollabrator: ['', [Validators.required, Validators.email]],
       email: [''],
-      idrole: ['', Validators.required]
+      idrole: [null, Validators.required]
     })
   }
   getall(identreprise, idrole, iduser) {

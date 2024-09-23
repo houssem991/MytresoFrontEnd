@@ -23,8 +23,8 @@ export class ReglementsClientsComponent implements OnInit {
   reglements: any;
   settings = {
     columns: {
-      num: {
-        title: 'Num'
+      code: {
+        title: 'Code'
       },
       tiers: {
         title: 'Clients'
@@ -140,7 +140,6 @@ export class ReglementsClientsComponent implements OnInit {
       banque: [''],
       numpiece : [''],
       solde: ['', Validators.required],
-      soldedev: ['', Validators.required],
       idclient: [null],
     })
   }

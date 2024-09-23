@@ -23,27 +23,57 @@
                 </ngb-alert>
                 <ngx-spinner></ngx-spinner>
                 <form [formGroup]="imputationForm">
-                  <div class="form-group">
-                    <input type="number" formControlName="montant" class="form-control mb-2" placeholder="Monatant à regler"
-                           [ngClass]="{ 'is-invalid': imputationFormSubmitted && rf.montant.invalid, 'is-valid': imputationFormSubmitted && !rf.montant.invalid }"
-                           required>
-                    <div *ngIf="imputationFormSubmitted && (rf.montant.invalid || rf.montant.errors?.required)"
-                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
-                  </div>
-                  <div class="form-group">
-                    <ng-select [items]="facture" bindLabel="id" placeholder="choisir un facture" bindValue="id" formControlName="piece" >
-                    </ng-select>
-                    <div *ngIf="imputationFormSubmitted && (rf.piece.invalid || rf.piece.errors?.required)"
-                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Facture is
-                      required</div>
-                  </div>
-                  <div class="form-group">
+                  <table class="table table-hover table-responsive">
+                    <thead>
+                    <tr>
+                      <th style="width: 10%"></th>
+                      <th class="text-primary" scope="col">N°Piece</th>
+                      <th class="text-primary" scope="col">N°Tiers</th>
+                      <th class="text-primary" scope="col">Valide</th>
+                      <th class="text-primary" scope="col">Date de document</th>
+                      <th class="text-primary" scope="col">Etat</th>
+                      <th class="text-primary" scope="col">Net A Payer</th>
+                      <th class="text-primary" scope="col">Montant Regle</th>
+                      <th class="text-primary" scope="col">Reste A Payer</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <ng-container *ngFor="let doc of facture; let i = index ; trackBy: trackById">
+
+                      <tr>
+                        <td>   <input
+                          type="checkbox"
+                          [checked]="doc.selected"
+                          [disabled]="doc.disabled"
+                          (change)="onCheckboxChange(i, $event.target.checked)"
+                        /></td>
+                        <td>{{doc.id}}</td>
+                        <td>{{doc.clientCode}}</td>
+                        <td>{{doc.valide}}</td>
+                        <td>{{doc.documentDate}}</td>
+                        <td>{{doc.etat}}</td>
+                        <td>{{doc.netAPayer}}</td>
+                        <td>{{doc.montantRegle}}</td>
+                        <td>{{doc.resteAPayer}}</td>
+
+                      </tr>
+                      <!-- ngIf vérifie si l'index ouvert correspond à l'index de la ligne cliquée -->
+                    </ng-container>
+                    </tbody>
+                  </table>
+                  <p>Total Selection: {{montantselect}} Solde Restant : {{soldeRestant}}</p>
+                  <div class="form-group" *ngIf="reglement?.n_Reglement==1 else template">
                     <ng-select [items]="caisse" bindLabel="libelle" placeholder="choisir une caisse" bindValue="id" formControlName="idcaisse" >
                     </ng-select>
-                    <div *ngIf="imputationFormSubmitted && (rf.idcaisse.invalid || rf.idcaisse.errors?.required)"
-                         class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Caisse is
-                      required</div>
                   </div>
+                  <ng-template #template>
+                    <div class="form-group">
+                      <ng-select [items]="banque" bindLabel="nom" placeholder="choisir une banque" bindValue="id" formControlName="idbanque" >
+                      </ng-select>
+                    </div>
+                  </ng-template>
+
 
                   <div class="d-flex justify-content-between flex-sm-row flex-column">
                     <a class="btn btn-primary" (click)="onSubmit()">ajouter</a>
