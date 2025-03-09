@@ -122,6 +122,7 @@ export class GestionFournisseursComponent implements OnInit {
       this.spinner.hide();
       setTimeout(() => {
         this.isSucces = false;
+        window.location.reload()
       }, 5000);
     });
   }
@@ -188,18 +189,6 @@ export class GestionFournisseursComponent implements OnInit {
             this.modifier = this.access.modifier;
             this.consulter = this.access.consulter;
             this.supprimer = this.access.supprimer;
-            if (this.access.supprimer === true) {
-              this.settings.actions.custom.push({
-                name: 'delete',
-                title: '<a href=""><i class="fa fa-trash px-1" aria-hidden="true"></i></a>'
-              });
-            }
-            if (this.access.modifier === true) {
-              this.settings.actions.custom.push({
-                name: 'update',
-                title: '<a href=""><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
-              });
-            }
             if (this.access.consulter === true) {
               this.settings.actions.custom.push({
                 name: 'show',

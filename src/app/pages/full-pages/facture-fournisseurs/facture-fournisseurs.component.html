@@ -25,6 +25,12 @@
   <div class="row">
     <div class="col">
       <a class="btn btn-primary mb-3" *ngIf="access?.ajouter" (click)="importer(idfournisseur)">Importer</a>
+      <ngb-alert type="success" class="mb-2" [dismissible]="false" *ngIf="isSucces" (close)="isSucces = false">
+        <div class="alert-icon-left">
+          <i class="ft-thumbs-up mr-2"></i>
+          <span>{{message}}</span>
+        </div>
+      </ngb-alert>
       <div class="card shadow border-0 p-3">
         <div class="row mb-3">
           <div class="col-md-6">
@@ -41,7 +47,7 @@
     </div>
   </div>
 </div>
-
+<ngx-spinner></ngx-spinner>
 <style>
   .form-control {
     max-width: 300px;

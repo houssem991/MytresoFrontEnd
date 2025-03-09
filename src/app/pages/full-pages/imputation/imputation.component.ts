@@ -158,24 +158,6 @@ export class ImputationComponent implements OnInit {
           data1 => {
             this.access = data1
             console.log('m', this.access)
-            if (this.access.supprimer === true) {
-              this.settings.actions.custom.push({
-                name: 'delete',
-                title: '<a  href=""  ><i class="fa fa-trash px-1" aria-hidden="true"></i></a>'
-              })
-            }
-            if (this.access.modifier === true) {
-              this.settings.actions.custom.push({
-                name: 'update',
-                title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
-              })
-            }
-            if (this.access.consulter === true) {
-              this.settings.actions.custom.push({
-                name: 'show',
-                title: '<a  href=""><i class="fa fa-eye px-1" aria-hidden="false" ></i></a>'
-              })
-            }
             this.settings = this.clone(this.settings);
             this.cdr.detectChanges();
           })

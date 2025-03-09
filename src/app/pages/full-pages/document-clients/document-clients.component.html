@@ -75,26 +75,20 @@
         <input type="text" formControlName="reference" class="form-control mb-2" placeholder="Reference">
       </div>
       <div class="form-group">
-        <input type="text" *ngIf="alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT' " formControlName="banque" class="form-control mb-2" placeholder="Banque"
-               [ngClass]="{ 'is-invalid': alimentationFormubmitted && rf.banque.invalid, 'is-valid': alimentationFormubmitted && !rf.banque.invalid }"
-               required>
-        <div *ngIf="alimentationFormubmitted && (rf.banque.invalid || rf.banque.errors?.required) && (alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT') "
-             class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+        <input type="text" *ngIf="alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT' " formControlName="banque" class="form-control mb-2" placeholder="Banque">
+
       </div>
       <div class="form-group">
         <input type="text"  *ngIf="alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT' " formControlName="numpiece" class="form-control mb-2" placeholder="Numero"
                [ngClass]="{ 'is-invalid': alimentationFormubmitted && rf.numpiece.invalid, 'is-valid': alimentationFormubmitted && !rf.numpiece.invalid }"
-               required>
-        <div *ngIf="alimentationFormubmitted && (rf.numpiece.invalid || rf.numpiece.errors?.required)"
-             class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+               >
+
       </div>
       <div class="form-group" *ngIf="alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT' ">
         <label>Date d'echéance</label>
         <input type="Date"   formControlName="dateEcheance" class="form-control mb-2" placeholder="Date d'Echeance"
                [ngClass]="{ 'is-invalid': alimentationFormubmitted && rf.dateEcheance.invalid, 'is-valid': alimentationFormubmitted && !rf.dateEcheance.invalid }"
-               required>
-        <div *ngIf="alimentationFormubmitted && (rf.dateEcheance.invalid || rf.dateEcheance.errors?.required) && (alimentationForm.value.type == 'CHEQUE'||alimentationForm.value.type == 'TRAITE'||alimentationForm.value.type == 'VIREMENT')"
-             class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> Champ obligatoire</div>
+               >
       </div>
       <div class="form-group">
         <input type="text" formControlName="solde" class="form-control mb-2" placeholder="Montant"

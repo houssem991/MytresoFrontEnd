@@ -63,10 +63,10 @@
               "src/assets/vendor/pace/pace.min.js",
               "node_modules/apexcharts/dist/apexcharts.min.js"
             ],
-            "vendorChunk": true,
+            "vendorChunk": false,
             "extractLicenses": false,
-            "buildOptimizer": false,
-            "sourceMap": true,
+            "buildOptimizer": true,
+            "sourceMap": false,
             "optimization": false,
             "namedChunks": true
           },

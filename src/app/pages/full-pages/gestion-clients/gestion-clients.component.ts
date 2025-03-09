@@ -98,6 +98,7 @@ export class GestionClientsComponent implements OnInit {
       this.spinner.hide();
       setTimeout(() => {
         this.isSucces = false ;
+        window.location.reload()
       }, 5000 )
     });
   }

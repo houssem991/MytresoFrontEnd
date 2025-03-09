@@ -16,12 +16,17 @@ import {AccessService} from '../../../shared/services/acces.service';
   styleUrls: ['./impaye-clients.component.scss']
 })
 export class ImpayeClientsComponent implements OnInit {
-
+  source: LocalDataSource;
+  startDate: string;
+  endDate: string;
   reglements: any;
   settings = {
     columns: {
       num: {
         title: 'Num'
+      },
+      tiers: {
+        title: 'Client'
       },
       dateReglement: {
         title: 'Date'
@@ -35,24 +40,11 @@ export class ImpayeClientsComponent implements OnInit {
       solde: {
         title: 'Solde'
       },
-      soldeDev: {
-        title: 'SoldeDev',
-        class: 'text-danger'
-      },
       soldeRestant: {
         title: 'Solde Restant'
       },
-      estAffecte: {
-        title: 'EstAffecte'
-      },
       estComptablise: {
         title: 'EstComptablise'
-      },
-      type: {
-        title: 'Type'
-      },
-      numPiece: {
-        title: 'NumPiece'
       },
       etat: {
         title: 'Etat',
@@ -68,8 +60,11 @@ export class ImpayeClientsComponent implements OnInit {
           }
         }
       },
-      tiers: {
-        title: 'Clients'
+      impaye: {
+        title: 'Impaye',
+        valuePrepareFunction: (cell, row) => {
+          return { value: cell, class: row.impaye ? 'text-danger' : '' };
+        }
       },
     },
     attr: {
@@ -84,16 +79,23 @@ export class ImpayeClientsComponent implements OnInit {
       position: 'right'
     }
   };
+  selectedRecord: any = {};
+  TypeReg = [
+    {  type: 'ESPECE' },
+    {  type: 'VIREMENT' },
+    {  type: 'CHEQUE' },
+    {  type: 'TRAITE' }
+  ];
   entrepriseFormSubmitted = false;
   entrepriseForm: UntypedFormGroup;
+  alimentationFormSubmitted = false;
+  alimentationForm: UntypedFormGroup;
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
-  source: LocalDataSource;
-  startDate: string;
-  endDate: string;
   user: any;
   iduser: any;
+  idimpaye: any;
   namerole: any;
   idrole: any;
   identreprise: any;
@@ -114,9 +116,54 @@ export class ImpayeClientsComponent implements OnInit {
       datedebut: [Date, Validators.required],
       datefin: [Date, Validators.required],
     })
+    this.alimentationForm = this.formBuilder.group({
+      reference: [''],
+      dateEcheance: [Date],
+      type: [null , Validators.required],
+      banque: [''],
+      numpiece : [''],
+    })
+  }
+  onSubmit(): void {
+
+    this.alimentationFormSubmitted = true;
+    if (this.alimentationForm.invalid) {
+      return;
+    }
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.idimpaye = this.selectedRecord.num;
+    this.reglementsService.reglerImpayer(this.idimpaye, this.alimentationForm).subscribe(
+      data => {
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.spinner.hide()
+        this.message = data['message']
+        console.log(this.message)
+        setTimeout(() => {
+          this.isSuccessful = false;
+          window.location.reload()
+        }, 2000);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSuccessful = false;
+        this.isSignUpFailed = true;
+        this.spinner.hide();
+      }
+    );
   }
   get rf() {
     return this.entrepriseForm.controls;
+  }
+  get tf() {
+    return this.alimentationForm.controls;
   }
   onStartDateChange(event: any) {
     this.startDate = event.target.value;
@@ -146,9 +193,9 @@ export class ImpayeClientsComponent implements OnInit {
   }
   getall(iduser) {
     this.reglementsService.getallImpayesClients(iduser).subscribe(data => {
-      console.log('hhh', data);
       this.reglements = data;
       this.source = new LocalDataSource(this.reglements);
+      this.cdr.detectChanges();
     });
 
   }
@@ -200,11 +247,12 @@ export class ImpayeClientsComponent implements OnInit {
     });
   }
 
-  onclicktable($event) {
+  onclicktable($event, template) {
     if ($event.action === 'update') {
-      this.router.navigate(['pages/modifier-role', $event['data']['id']]);
+      this.selectedRecord = { ...$event.data };
+      this.open(template)
+      this.idimpaye = this.selectedRecord.num;
     } else if ($event.action === 'show') {
-      this.router.navigate(['pages/gestion-fournisseurs/facture', $event['data']['code']]);
     } else if ($event.action === 'delete') {
       if (window.confirm('Voulez vous vraiment supprimer ce role?')) {
         this.delete($event['data']['id']);
@@ -219,7 +267,6 @@ export class ImpayeClientsComponent implements OnInit {
     }
 
   }
-
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
       this.namerole = this.tokenStorage.getUser().roles[0];
@@ -227,22 +274,19 @@ export class ImpayeClientsComponent implements OnInit {
       this.utilisateurService.findById(this.iduser).subscribe(
           data => {
             this.identreprise = data.identreprise ;
-            console.log("user", this.user)
             this.getall(this.iduser);
           });
       this.roleService.findByName(this.namerole).subscribe(data => {
         this.rolee = data;
         this.idrole = this.rolee.id;
-        console.log("data", data)
-        this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Gestion des Fournisseurs').subscribe(
+        this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Imapyes Clients').subscribe(
             data1 => {
               this.access = data1
-              console.log("m", this.access)
-              if (this.access.consulter === true) {
+              if (this.access.modifier === true) {
                 this.settings.actions.custom.push({
-                  name: 'show',
-                  title: '<a  href=""><i class="fa fa-eye px-1" aria-hidden="false" ></i></a>'
-                })
+                  name: 'update',
+                  title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
+                });
               }
               this.settings = this.clone(this.settings);
               this.cdr.detectChanges();

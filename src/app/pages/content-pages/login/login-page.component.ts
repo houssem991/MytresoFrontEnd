@@ -13,7 +13,7 @@ import {TokenStorageService} from '../../../shared/services/token-storage.servic
 })
 
 export class LoginPageComponent implements OnInit {
-
+  logoUrl = 'assets/img/Vector.png'
   loginFormSubmitted = false;
   isLoginFailed = false;
   roles: any;

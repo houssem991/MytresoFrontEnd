@@ -37,6 +37,7 @@ export class ReglementsService {
   getallImpayesFournisseurs(id): Observable<any> {
     return this.http.get(`${API_URL + 'all/impaye/fournisseur'}/${id}`);
   }
+
   getallRegelementsClients(id): Observable<any> {
     return this.http.get(`${API_URL + 'alll/Clients'}/${id}`);
   }
@@ -75,6 +76,16 @@ export class ReglementsService {
       solde: reglement.value.solde,
       soldedev: reglement.value.soldedev,
       idfournisseur: reglement.value.idfournisseur,
+    }, this.httpOptions);
+  }
+  reglerImpayer(id, reglement): Observable<any> {
+    return this.http.post(`${API_URL + 'regler/impayer'}/${id}`, {
+      reference: reglement.value.reference,
+      banque: reglement.value.banque,
+      dateEcheance: reglement.value.dateEcheance,
+      percentageRs: reglement.value.percentageRs,
+      type: reglement.value.type,
+      numpiece: reglement.value.numpiece,
     }, this.httpOptions);
   }
   addClients(reglement): Observable<any> {

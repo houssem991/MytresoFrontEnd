@@ -95,7 +95,7 @@ Type = [
   }
   getallWithoutCurrent(id , iduser) {
     this.caisseService.findAllWithoutCurrent(id, iduser).subscribe(data => {
-      console.log(data);
+      console.log("caisse", data);
       this.caisses = data;
     });
 
@@ -189,7 +189,6 @@ Type = [
             console.log('user', this.user)
             this.getall();
             this.getallBanque()
-            this.getallWithoutCurrent(this.idcaisse , this.iduser)
           });
         console.log('data', data)
         this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Caisse').subscribe(

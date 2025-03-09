@@ -9,6 +9,8 @@ import {NgxSpinnerService} from 'ngx-spinner';
 import {UtilisateurService} from '../../../shared/services/utilisateur.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AccessService} from '../../../shared/services/acces.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'app-impaye-fournisseurs',
@@ -81,11 +83,14 @@ export class ImpayeFournisseursComponent implements OnInit {
   };
   entrepriseFormSubmitted = false;
   entrepriseForm: UntypedFormGroup;
+  alimentationFormSubmitted = false;
+  alimentationForm: UntypedFormGroup;
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = '';
   user: any;
   iduser: any;
+  idimpaye: any;
   namerole: any;
   idrole: any;
   identreprise: any;
@@ -93,6 +98,13 @@ export class ImpayeFournisseursComponent implements OnInit {
   rolee: any;
   message: any;
   isSucces = false ;
+  selectedRecord: any = {};
+  TypeReg = [
+    {  type: 'ESPECE' },
+    {  type: 'VIREMENT' },
+    {  type: 'CHEQUE' },
+    {  type: 'TRAITE' }
+  ];
   constructor(private router: Router, private tokenStorage: TokenStorageService,
               private roleService: RoleService,
               private formBuilder: UntypedFormBuilder,
@@ -107,30 +119,18 @@ export class ImpayeFournisseursComponent implements OnInit {
       datedebut: [Date, Validators.required],
       datefin: [Date, Validators.required],
     })
+    this.alimentationForm = this.formBuilder.group({
+      reference: [''],
+      dateEcheance: [Date],
+      type: [null , Validators.required],
+      banque: [''],
+      numpiece : [''],
+    })
   }
   onStartDateChange(event: any) {
     this.startDate = event.target.value;
     this.applyFilter();
-  }
-  retourImpaye(num): void {
-    this.spinner.show(undefined,
-        {
-          type: 'ball-triangle-path',
-          size: 'medium',
-          bdColor: 'rgba(0, 0, 0, 0.8)',
-          color: '#fff',
-          fullScreen: true
-        });
-    this.reglementsService.impayeFournisseurs(this.iduser, num).subscribe(value => {
-      this.message = value.message;
-      this.isSuccessful = true ;
-      this.spinner.hide();
-      setTimeout(() => {
-        this.isSuccessful = false ;
-      }, 5000 )
-    });
-  }
-  onEndDateChange(event: any) {
+  }onEndDateChange(event: any) {
     this.endDate = event.target.value;
     this.applyFilter();
   }
@@ -153,17 +153,36 @@ export class ImpayeFournisseursComponent implements OnInit {
   }
   getall(iduser) {
     this.reglementsService.getallImpayesFournisseurs(iduser).subscribe(data => {
-      console.log(data);
       this.reglements = data;
       this.source = new LocalDataSource(this.reglements);
       this.cdr.detectChanges();
     });
   }
-
   delete($id) {
     this.roleService.delete($id).subscribe(data => {
       window.location.reload();
     });
+  }
+  exportToExcel(): void {
+    // Créer une nouvelle feuille de calcul
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.reglements);
+
+    // Créer un nouveau classeur
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'impayesfournisseur': worksheet },
+      SheetNames: ['impayesfournisseur']
+    };
+
+    // Convertir le classeur en binaire
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    // Appeler la fonction pour sauvegarder le fichier Excel
+    this.saveAsExcelFile(excelBuffer, 'impayesfournisseur');
+  }
+
+  private saveAsExcelFile(buffer: any, fileName: string): void {
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    saveAs(data, `${fileName}_export.xlsx`);
   }
   printTable() {
     const printableContent = document.getElementById('printableContent');
@@ -203,11 +222,12 @@ export class ImpayeFournisseursComponent implements OnInit {
     });
   }
 
-  onclicktable($event) {
+  onclicktable($event, template) {
     if ($event.action === 'update') {
-      this.router.navigate(['pages/modifier-role', $event['data']['id']]);
+      this.selectedRecord = { ...$event.data };
+      this.open(template)
+      this.idimpaye = this.selectedRecord.num;
     } else if ($event.action === 'show') {
-      this.retourImpaye($event['data']['num'])
     } else if ($event.action === 'delete') {
       if (window.confirm('Voulez vous vraiment supprimer ce role?')) {
         this.delete($event['data']['id']);
@@ -222,7 +242,46 @@ export class ImpayeFournisseursComponent implements OnInit {
     }
 
   }
+  onSubmit(): void {
 
+    this.alimentationFormSubmitted = true;
+    if (this.alimentationForm.invalid) {
+      return;
+    }
+    this.spinner.show(undefined,
+      {
+        type: 'ball-triangle-path',
+        size: 'medium',
+        bdColor: 'rgba(0, 0, 0, 0.8)',
+        color: '#fff',
+        fullScreen: true
+      });
+    this.idimpaye = this.selectedRecord.num;
+    this.reglementsService.reglerImpayer(this.idimpaye, this.alimentationForm).subscribe(
+      data => {
+        this.isSuccessful = true;
+        this.isSignUpFailed = false;
+        this.spinner.hide()
+        this.message = data['message']
+        setTimeout(() => {
+          this.isSuccessful = false;
+          window.location.reload()
+        }, 2000);
+      },
+      err => {
+        this.errorMessage = err.error.message;
+        this.isSuccessful = false;
+        this.isSignUpFailed = true;
+        this.spinner.hide();
+      }
+    );
+  }
+  get tf() {
+    return this.alimentationForm.controls;
+  }
+  get rf() {
+    return this.entrepriseForm.controls;
+  }
   ngOnInit() {
     if (this.tokenStorage.getToken()) {
       this.namerole = this.tokenStorage.getUser().roles[0];
@@ -230,22 +289,19 @@ export class ImpayeFournisseursComponent implements OnInit {
       this.utilisateurService.findById(this.iduser).subscribe(
           data => {
             this.identreprise = data.identreprise ;
-            console.log("user", this.user)
             this.getall(this.iduser);
           });
       this.roleService.findByName(this.namerole).subscribe(data => {
         this.rolee = data;
         this.idrole = this.rolee.id;
-        console.log("data", data)
-        this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Gestion des Fournisseurs').subscribe(
+        this.accessService.findByAccessTitleAndRole(this.rolee.id, 'Impayes Fournisseurs').subscribe(
             data1 => {
               this.access = data1
-              console.log("m", this.access)
-              if (this.access.consulter === true) {
+              if (this.access.modifier === true) {
                 this.settings.actions.custom.push({
-                  name: 'show',
-                  title: '<a  href=""><i class="bi bi-file-earmark-excel px-1" title="retour impaye" aria-hidden="false" ></i></a>'
-                })
+                  name: 'update',
+                  title: '<a  href=""  ><i class="fa fa-wrench px-1" aria-hidden="true"></i></a>'
+                });
               }
               this.settings = this.clone(this.settings);
               this.cdr.detectChanges();
@@ -259,6 +315,7 @@ export class ImpayeFournisseursComponent implements OnInit {
     return JSON.parse(JSON.stringify(obj));
   }
 }
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 
 
 
